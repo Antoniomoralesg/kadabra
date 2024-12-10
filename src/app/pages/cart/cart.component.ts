@@ -10,7 +10,7 @@ import { OrderSummaryComponent } from "./order-summary/order-summary.component";
   imports: [CartItemComponent, OrderSummaryComponent],
   template: `
     <div class="p-6 flex flex-col gap-4">
-      <h2 class="text-2xl">Shopping cart</h2>
+      <h2 class="text-2xl">Carrito</h2>
 
       @for (item of cartService.cart(); track item.id) {
       <app-cart-item [item] = "item" />
