@@ -2,34 +2,28 @@ import { Injectable, signal } from '@angular/core';
 import { Product } from '../models/products.models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CartService {
+  // Inicializa el carrito con datos de localStorage si existen
+  cart = signal<Product[]>(JSON.parse(localStorage.getItem('cart') || '[]'));
 
-  cart = signal<Product[]>([
-    {
-    id: 1,
-    title: 'Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops',
-    price: 109.95,
-    image: 'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',
-    stock: 10,
-  },
-  {
-    id: 2,
-    title: 'Mens Casual Premium Slim Fit T-Shirts ',
-    price: 22.3,
-    image:
-      'https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg',
-    stock: 0,
-  },
-])
+  // Guarda el carrito en localStorage cuando se actualiza
+  private saveCart() {
+    localStorage.setItem('cart', JSON.stringify(this.cart()));
+  }
 
   addToCart(product: Product) {
-    this.cart.set([...this.cart(), product]);
-  }
-  removeFromCart(product: Product) {
-    this.cart.set(this.cart().filter((p) => p.id !== product.id));
+    const currentCart = this.cart();
+    this.cart.set([...currentCart, product]); // Añadimos el producto
+    this.saveCart(); // Guardamos el carrito actualizado en localStorage
   }
 
-  constructor() { }
+  removeFromCart(product: Product) {
+    const currentCart = this.cart();
+    this.cart.set(currentCart.filter((p) => p.id !== product.id)); // Filtramos el carrito para remover el producto
+    this.saveCart(); // Guardamos el carrito actualizado en localStorage
+  }
+
+  constructor() {}
 }

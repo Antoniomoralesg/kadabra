@@ -30,12 +30,7 @@ import { CommonModule } from '@angular/common';
           (btnClicked)="CartService.addToCart(product())"
         />
 
-        <span
-          class="absolute top-2 right-3 text-sm font-bold"
-          [class]="product().stock ? 'text-green-500' : 'text-red-500'"
-        >
-          {{ product().stock ? product().stock + ' left' : 'Out of stock' }}
-        </span>
+       
 
         <!-- Enlace para ver detalles -->
         <button

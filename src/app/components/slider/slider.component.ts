@@ -4,24 +4,55 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-slider',
   standalone: true,
-  imports: [CommonModule], 
+  imports: [CommonModule],
   template: `
-    <div class="slider-container mt-6">
-      <div class="slider" [style.transform]="'translateX(' + (-currentIndex * 100) + '%)'">
-        <div 
-          class="slide" 
+    <div class="slider-container mt-6 relative overflow-hidden w-full">
+      <div
+        class="slider flex transition-transform duration-500 ease-in-out"
+        [style.transform]="'translateX(' + (-currentIndex * 100) + '%)'"
+      >
+        <div
+          class="slide flex flex-col md:flex-row items-center justify-between w-full px-4 md:px-6 py-4"
           *ngFor="let slide of slides"
           [style.backgroundColor]="slide.backgroundColor"
         >
-          <div class="slide-content">
-            <h2>{{ slide.slogan }}</h2>
-            <p>{{ slide.description }}</p>
+          <!-- Imagen -->
+          <div class="w-full md:w-1/2 flex justify-center">
+            <img
+              [src]="slide.imageUrl"
+              alt="Slider Image"
+              class="rounded-lg w-full max-w-xs md:max-w-sm lg:max-w-md max-h-100 md:max-h-80 lg:max-h-64 object-cover"
+            />
+          </div>
+
+          <!-- Contenido -->
+          <div
+            class="text-center md:text-left w-full md:w-1/2 flex flex-col items-center md:items-start mt-4 md:mt-0 md:ml-6 max-w-[90%] mx-auto"
+          >
+            <h2 class="text-xl md:text-3xl font-bold text-white mb-2">
+              {{ slide.slogan }}
+            </h2>
+            <p class="text-sm md:text-base text-white">{{ slide.description }}</p>
           </div>
         </div>
       </div>
-      <div class="slider-controls">
-        <button class="prev" (click)="prevSlide()"><</button>
-        <button class="next" (click)="nextSlide()">></button>
+
+      <!-- Controles -->
+      <div
+        class="slider-controls absolute top-1/2 transform -translate-y-1/2 w-full flex justify-between"
+      >
+        <button
+          class="prev bg-gray-700 text-white px-3 py-1 rounded-full hover:bg-gray-900 focus:outline-none"
+          (click)="prevSlide()"
+        >
+          ‹
+        </button>
+        <button
+          class="next bg-gray-700 text-white px-3 py-1 rounded-full hover:bg-gray-900 focus:outline-none"
+          (click)="nextSlide()"
+        >
+          ›
+        </button>
       </div>
     </div>
   `,
@@ -31,7 +62,6 @@ import { CommonModule } from '@angular/common';
         position: relative;
         overflow: hidden;
         width: 100%;
-        max-width: 1200px;
         margin: auto;
       }
       .slider {
@@ -48,13 +78,6 @@ import { CommonModule } from '@angular/common';
         padding: 20px;
         color: white;
       }
-      .slide-content h2 {
-        font-size: 2rem;
-        font-weight: bold;
-      }
-      .slide-content p {
-        font-size: 1rem;
-      }
       .slider-controls {
         position: absolute;
         top: 50%;
@@ -63,40 +86,29 @@ import { CommonModule } from '@angular/common';
         justify-content: space-between;
         transform: translateY(-50%);
       }
-      button {
-        background: rgba(0, 0, 0, 0.5);
-        color: white;
-        border: none;
-        padding: 10px;
-        cursor: pointer;
-      }
-      button:hover {
-        background: rgba(0, 0, 0, 0.8);
-      }
     `,
   ],
 })
 export class SliderComponent {
   slides = [
-    { 
-      slogan: '¡Ofertas mágicas!', 
-      description: 'Encuentra lo mejor para ti', 
+    {
+      slogan: '¡Ofertas mágicas!',
+      description: 'Encuentra lo mejor para ti',
       backgroundColor: '#f44336',
-      imageUrl: '/slide1.jpg' // Ruta de la imagen en la carpeta public
-      
-    }, 
-    { 
-      slogan: 'Disfruta de las fiestas', 
-      description: 'Descuentos únicos solo hoy', 
+      imageUrl: '/slide1.jpg',
+    },
+    {
+      slogan: 'Disfruta de las fiestas',
+      description: 'Descuentos únicos solo hoy',
       backgroundColor: '#3f51b5',
-      imageUrl: '/slide2.jpg' // Ruta de la imagen en la carpeta public
-    }, 
-    { 
-      slogan: 'Nuevas llegadas', 
-      description: 'Los mejores regalos con descuento', 
+      imageUrl: '/slide2.jpg',
+    },
+    {
+      slogan: 'Nuevas llegadas',
+      description: 'Los mejores regalos con descuento',
       backgroundColor: '#4caf50',
-      imageUrl: '/slide3.jpg' // Ruta de la imagen en la carpeta public
-    }
+      imageUrl: '/slide3.jpg',
+    },
   ];
 
   currentIndex = 0;

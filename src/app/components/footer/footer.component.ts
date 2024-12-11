@@ -10,7 +10,7 @@ import { Component } from '@angular/core';
         <div class="flex justify-center gap-6 flex-wrap">
           <a href="#" class="text-white hover:text-gray-400 transition-colors">Facebook</a>
           <a href="#" class="text-white hover:text-gray-400 transition-colors">Instagram</a>
-          <a href="#" class="text-white hover:text-gray-400 transition-colors">Twitter</a>
+          <a href="#" class="text-white hover:text-gray-400 transition-colors">X</a>
         </div>
       </div>
     </footer>

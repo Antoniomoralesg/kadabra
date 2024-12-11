@@ -27,19 +27,25 @@ import { CommonModule } from '@angular/common';
       </div>
     </div>
   `,
-  styles: [
-    `
-      .benefits-container {
-        background-color: #f44336;
-      }
-      .benefit-card img {
-        object-fit: contain;
-      }
-      .benefit-card:hover {
-        transform: scale(1.05);
-        transition: all 0.3s ease-in-out;
-      }
-    `,
-  ],
+ styles: [
+  `
+    .benefits-container {
+      background-color: white;
+    }
+    .benefit-card {
+      border: 2px solid #FFA500; /* Color naranja */
+      border-radius: 8px; /* Opcional, para bordes redondeados */
+      padding: 10px; /* Espaciado interno */
+    }
+    .benefit-card img {
+      object-fit: contain;
+    }
+    .benefit-card:hover {
+      transform: scale(1.05);
+      transition: all 0.3s ease-in-out;
+    }
+  `,
+],
+
 })
 export class StoreBenefitsComponent {}

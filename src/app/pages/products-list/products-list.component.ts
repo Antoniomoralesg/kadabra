@@ -5,11 +5,21 @@ import { ProductsService } from '../../services/products.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { StoreBenefitsComponent } from '../../components/store-benefits/store-benefits.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SliderComponent } from '../../components/slider/slider.component';
 @Component({
   selector: 'app-products-list',
   standalone: true,
-  imports: [ProductCardComponent, CommonModule, MatIconModule,StoreBenefitsComponent],
+  imports: [
+    ProductCardComponent,
+    CommonModule,
+    MatIconModule,
+    StoreBenefitsComponent,
+    MatProgressSpinnerModule,
+    SliderComponent
+  ],
   template: `
+  <app-slider></app-slider>
     <div class="p-4 space-y-4 flex justify-center">
       <div class="relative w-full max-w-md">
         <input
@@ -37,11 +47,11 @@ import { StoreBenefitsComponent } from '../../components/store-benefits/store-be
     </div>
 
     <!-- Loader -->
-    <div *ngIf="loading()" class="text-center py-4">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Cargando...</span>
-      </div>
-    </div>
+    <mat-spinner
+      *ngIf="loading()"
+      diameter="50"
+      class="spinner-center custom-spinner"
+    ></mat-spinner>
 
     <!-- Listado de productos -->
     <div *ngIf="!loading()" class="p-8 grid grid-cols-2 gap-4">
@@ -70,24 +80,18 @@ import { StoreBenefitsComponent } from '../../components/store-benefits/store-be
       </button>
     </div>
 
-     <!-- Store Benefits -->
-     <app-store-benefits></app-store-benefits>
+    <!-- Store Benefits -->
+    <app-store-benefits></app-store-benefits>
   `,
   styles: [
     `
-      .spinner-border {
-        width: 3rem;
-        height: 3rem;
-        border: 0.4em solid rgba(0, 0, 0, 0.1);
-        border-top: 0.4em solid #007bff;
-        border-radius: 50%;
-        animation: spinner 0.75s linear infinite;
-      }
-
-      @keyframes spinner {
-        to {
-          transform: rotate(360deg);
-        }
+      /* Spinner personalizado */
+      .spinner-center {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
       }
     `,
   ],
