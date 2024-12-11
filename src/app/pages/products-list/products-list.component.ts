@@ -1,25 +1,26 @@
 import { Component, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Product } from '../../models/products.models';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductsService } from '../../services/products.service';
-import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
 import { StoreBenefitsComponent } from '../../components/store-benefits/store-benefits.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SliderComponent } from '../../components/slider/slider.component';
+
 @Component({
   selector: 'app-products-list',
   standalone: true,
   imports: [
-    ProductCardComponent,
     CommonModule,
     MatIconModule,
-    StoreBenefitsComponent,
     MatProgressSpinnerModule,
+    ProductCardComponent,
+    StoreBenefitsComponent,
     SliderComponent
   ],
   template: `
-  <app-slider></app-slider>
+    <app-slider></app-slider>
     <div class="p-4 space-y-4 flex justify-center">
       <div class="relative w-full max-w-md">
         <input
@@ -33,7 +34,7 @@ import { SliderComponent } from '../../components/slider/slider.component';
     </div>
 
     <!-- Botones de categorías -->
-    <div class="flex justify-center space-x-4 my-4">
+    <div class="flex flex-wrap justify-center space-x-2 my-4">
       <button
         *ngFor="let category of displayCategories"
         (click)="filterByCategory(category)"
@@ -85,7 +86,15 @@ import { SliderComponent } from '../../components/slider/slider.component';
   `,
   styles: [
     `
-      /* Spinner personalizado */
+      .flex-wrap {
+        flex-wrap: wrap;
+      }
+      .space-x-2 > * {
+        margin-right: 0.5rem;
+      }
+      .space-x-2 > *:last-child {
+        margin-right: 0;
+      }
       .spinner-center {
         position: fixed;
         top: 50%;
