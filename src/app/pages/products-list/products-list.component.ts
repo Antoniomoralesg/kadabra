@@ -5,8 +5,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Product } from '../../models/products.models';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductsService } from '../../services/products.service';
-import { StoreBenefitsComponent } from '../../components/store-benefits/store-benefits.component';
-import { SliderComponent } from '../../components/slider/slider.component';
+
+
 
 @Component({
   selector: 'app-products-list',
@@ -16,11 +16,11 @@ import { SliderComponent } from '../../components/slider/slider.component';
     MatIconModule,
     MatProgressSpinnerModule,
     ProductCardComponent,
-    StoreBenefitsComponent,
-    SliderComponent
+    
+    
   ],
   template: `
-    <app-slider></app-slider>
+    
     <div class="p-4 space-y-4 flex justify-center">
       <div class="relative w-full max-w-md">
         <input
@@ -81,8 +81,7 @@ import { SliderComponent } from '../../components/slider/slider.component';
       </button>
     </div>
 
-    <!-- Store Benefits -->
-    <app-store-benefits></app-store-benefits>
+  
   `,
   styles: [
     `

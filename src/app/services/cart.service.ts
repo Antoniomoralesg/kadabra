@@ -25,5 +25,10 @@ export class CartService {
     this.saveCart(); // Guardamos el carrito actualizado en localStorage
   }
 
+  clearCart() {
+    this.cart.set([]); // Vaciamos el carrito
+    this.saveCart(); // Guardamos el carrito vacío en localStorage
+  }
+
   constructor() {}
 }
