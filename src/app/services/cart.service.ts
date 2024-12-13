@@ -14,10 +14,12 @@ export class CartService {
   }
 
   addToCart(product: Product) {
+    const newProduct = { ...product, id: new Date().getTime() }; // Usamos un timestamp como ID único
     const currentCart = this.cart();
-    this.cart.set([...currentCart, product]); // Añadimos el producto
-    this.saveCart(); // Guardamos el carrito actualizado en localStorage
+    this.cart.set([...currentCart, newProduct]);
+    this.saveCart();
   }
+  
 
   removeFromCart(product: Product) {
     const currentCart = this.cart();
@@ -29,6 +31,8 @@ export class CartService {
     this.cart.set([]); // Vaciamos el carrito
     this.saveCart(); // Guardamos el carrito vacío en localStorage
   }
+
+  
 
   constructor() {}
 }

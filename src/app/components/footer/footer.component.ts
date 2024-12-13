@@ -3,31 +3,70 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-footer',
   template: `
-    <footer class="bg-gray-800 text-white py-8">
-      <div class="container mx-auto text-center">
-        <p class="text-sm mb-2">&copy; 2024 Angular Ecommerce. Todos los derechos reservados.</p>
-        <p class="text-xs mb-4">Diseñado por Antonio Morales</p>
-        <div class="flex justify-center gap-6 flex-wrap">
-          <a href="#" class="text-white hover:text-gray-400 transition-colors">Facebook</a>
-          <a href="#" class="text-white hover:text-gray-400 transition-colors">Instagram</a>
-          <a href="#" class="text-white hover:text-gray-400 transition-colors">X</a>
+    <footer class="bg-gray-900 text-white py-10">
+      <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+        <!-- About Section -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Sobre Nosotros</h3>
+          <p class="text-sm">
+            Angular Ecommerce es una tienda moderna que ofrece los mejores productos al mejor precio. Tu satisfacción es nuestra prioridad.
+          </p>
         </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Enlaces Rápidos</h3>
+          <ul class="text-sm space-y-2">
+            <li><a href="#" class="hover:text-gray-400 transition-colors">Inicio</a></li>
+            <li><a href="#" class="hover:text-gray-400 transition-colors">Productos</a></li>
+            <li><a href="#" class="hover:text-gray-400 transition-colors">Contacto</a></li>
+            <li><a href="#" class="hover:text-gray-400 transition-colors">FAQs</a></li>
+          </ul>
+        </div>
+
+        <!-- Social Media -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Síguenos</h3>
+          <div class="flex justify-center md:justify-start gap-4">
+            <a href="#" class="text-gray-400 hover:text-yellow-400 transition">
+              <i class="fab fa-facebook-f text-2xl"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-yellow-400 transition">
+              <i class="fab fa-instagram text-2xl"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-yellow-400 transition">
+            <i class="fab fa-x-twitter text-2xl"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="mt-10 border-t border-gray-700 pt-6 text-center">
+        <p class="text-sm">&copy; 2024 Kadabra. Todos los derechos reservados.</p>
+        <p class="text-xs">Diseñado con ❤️ por Antonio Morales</p>
       </div>
     </footer>
   `,
   styles: [
     `
       footer {
-        background-color: #2d3748; /* bg-gray-800 */
-        color: white;
+        background-color: #1a202c; /* bg-gray-900 */
+        color: #e2e8f0; /* text-white */
       }
       footer a {
         transition: color 0.3s ease;
       }
       footer a:hover {
-        color: #e2e8f0; /* hover:text-gray-400 */
+        color: #facc15; /* hover:text-yellow-400 */
       }
-    `
-  ]
+      footer i {
+        transition: transform 0.3s ease;
+      }
+      footer i:hover {
+        transform: scale(1.2);
+      }
+    `,
+  ],
 })
 export class FooterComponent {}
