@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import confetti from 'canvas-confetti';
 
 @Component({
   selector: 'app-protected',
@@ -18,4 +19,16 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [RouterModule]
 })
-export class ProtectedComponent {}
+export class ProtectedComponent implements OnInit {
+  ngOnInit() {
+    this.launchConfetti();
+  }
+
+  launchConfetti() {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+  }
+}

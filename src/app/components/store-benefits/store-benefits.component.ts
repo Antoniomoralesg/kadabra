@@ -35,7 +35,9 @@ import { CommonModule } from '@angular/common';
     .benefit-card {
       border: 2px solid #FFA500; /* Color naranja */
       border-radius: 8px; /* Opcional, para bordes redondeados */
-      padding: 10px; /* Espaciado interno */
+      
+      padding: 1rem; /* Espaciado interno */
+      transition: transform 0.3s ease-in-out;
     }
     .benefit-card img {
       object-fit: contain;

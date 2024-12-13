@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router'; // Asegúrate de importar Router
 @Component({
   selector: 'app-login',
   template: `
-    <div class="flex items-center justify-center min-h-screen bg-white px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-center min-h-screen bg-cover bg-center" style="background-image: url('login.jpg');">
       <div class="bg-white p-8 rounded shadow-md w-full max-w-md border border-orange-500">
         <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
         <form (ngSubmit)="onSubmit()" class="space-y-4">
@@ -29,7 +29,17 @@ import { RouterModule } from '@angular/router'; // Asegúrate de importar Router
     </div>
   `,
   standalone: true,
-  imports: [FormsModule, RouterModule] // Asegúrate de importar RouterModule
+  imports: [FormsModule, RouterModule],
+  styles: [
+    `
+      .bg-cover {
+        background-size: cover;
+      }
+      .bg-center {
+        background-position: center;
+      }
+    `,
+  ],
 })
 export class LoginComponent {
   username = '';

@@ -5,6 +5,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Product } from '../../models/products.models';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductsService } from '../../services/products.service';
+import { PromoBannerComponent } from '../../components/promo-banner/promo-banner.component';
 
 
 
@@ -16,11 +17,12 @@ import { ProductsService } from '../../services/products.service';
     MatIconModule,
     MatProgressSpinnerModule,
     ProductCardComponent,
+    PromoBannerComponent,
     
     
   ],
   template: `
-    
+    <app-promo-banner></app-promo-banner>
     <div class="p-4 space-y-4 flex justify-center">
       <div class="relative w-full max-w-md">
         <input
@@ -83,7 +85,7 @@ import { ProductsService } from '../../services/products.service';
 
   
   `,
-  styles: [
+   styles: [
     `
       .flex-wrap {
         flex-wrap: wrap;
@@ -94,12 +96,28 @@ import { ProductsService } from '../../services/products.service';
       .space-x-2 > *:last-child {
         margin-right: 0;
       }
+      .space-y-2 > * {
+        margin-bottom: 0.5rem;
+      }
+      .space-y-2 > *:last-child {
+        margin-bottom: 0;
+      }
       .spinner-center {
         position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 9999;
+      }
+      @media (max-width: 640px) {
+        .space-x-2 {
+          flex-direction: column;
+          align-items: center;
+        }
+        .space-x-2 > * {
+          margin-right: 0;
+          margin-bottom: 0.5rem;
+        }
       }
     `,
   ],

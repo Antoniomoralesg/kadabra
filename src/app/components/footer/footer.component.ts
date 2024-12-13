@@ -9,14 +9,14 @@ import { Component } from '@angular/core';
         <div>
           <h3 class="text-lg font-semibold mb-4">Sobre Nosotros</h3>
           <p class="text-sm">
-            Angular Ecommerce es una tienda moderna que ofrece los mejores productos al mejor precio. Tu satisfacción es nuestra prioridad.
+            Kadabra es una tienda moderna que ofrece los mejores productos al mejor precio. Tu satisfacción es nuestra prioridad.
           </p>
         </div>
 
         <!-- Quick Links -->
         <div>
           <h3 class="text-lg font-semibold mb-4">Enlaces Rápidos</h3>
-          <ul class="text-sm space-y-2">
+          <ul class="text-sm grid grid-cols-2 gap-4">
             <li><a href="#" class="hover:text-gray-400 transition-colors">Inicio</a></li>
             <li><a href="#" class="hover:text-gray-400 transition-colors">Productos</a></li>
             <li><a href="#" class="hover:text-gray-400 transition-colors">Contacto</a></li>
@@ -41,11 +41,7 @@ import { Component } from '@angular/core';
         </div>
       </div>
 
-      <!-- Footer Bottom -->
-      <div class="mt-10 border-t border-gray-700 pt-6 text-center">
-        <p class="text-sm">&copy; 2024 Kadabra. Todos los derechos reservados.</p>
-        <p class="text-xs">Diseñado con ❤️ por Antonio Morales</p>
-      </div>
+      
     </footer>
   `,
   styles: [

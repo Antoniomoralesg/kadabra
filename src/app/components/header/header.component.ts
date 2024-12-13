@@ -4,16 +4,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { PrimaryButtonComponent } from '../primary-button/primary-button.component';
 import { CartService } from './../../services/cart.service';
 import { AuthService } from './../../services/auth.service';
-import { CommonModule } from '@angular/common'; // Importa CommonModule
+import { CommonModule } from '@angular/common';
+import { HeaderBannerComponent } from '../../components/header-banner/header-banner.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [PrimaryButtonComponent, RouterLink, MatIconModule, CommonModule], // Asegúrate de importar CommonModule
+  imports: [PrimaryButtonComponent, RouterLink, MatIconModule, CommonModule,HeaderBannerComponent],
   template: `
-    <div
-      class="bg-white-800 px-4 py-1 shadow-md flex justify-between items-center"
-    >
+  <app-header-banner></app-header-banner>
+    <div class="bg-white-800 px-4 py-1 shadow-md flex justify-between items-center">
       <button class="text-2xl flex items-center space-x-2" routerLink="/">
         <img
           src="/logo.png"
@@ -25,11 +26,11 @@ import { CommonModule } from '@angular/common'; // Importa CommonModule
       <div class="flex items-center space-x-4 relative">
         <div *ngIf="authService.isLoggedIn()" class="text-gray-700">
           Bienvenido, {{ authService.getCurrentUser() }}
-          <button (click)="logout()" class="ml-4 text-red-600 hover:text-red-800">Cerrar sesión</button>
+          <button (click)="confirmLogout()" class="ml-4 text-red-600 hover:text-red-800">Cerrar sesión</button>
         </div>
         <div *ngIf="!authService.isLoggedIn()" class="group relative">
           <button class="flex items-center space-x-2">
-            <mat-icon class="text-black !important">person</mat-icon> <!-- Cambia el icono aquí -->
+            <mat-icon class="text-black !important">person</mat-icon>
             <span>Login</span>
           </button>
           <div class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-50">
@@ -54,6 +55,28 @@ export class HeaderComponent {
   authService = inject(AuthService);
 
   cartLabel = computed(() => ` (${this.CartService.cart().length})`);
+
+  confirmLogout() {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¿Seguro que quieres cerrar sesión?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, cerrar sesión',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.logout();
+        Swal.fire(
+          'Sesión cerrada',
+          'Has cerrado sesión correctamente.',
+          'success'
+        );
+      }
+    });
+  }
 
   logout() {
     this.authService.logout();

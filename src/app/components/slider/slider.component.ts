@@ -12,12 +12,15 @@ import { CommonModule } from '@angular/common';
         [style.transform]="'translateX(' + (-currentIndex * 100) + '%)'"
       >
         <div
-          class="slide flex flex-col md:flex-row items-center justify-between w-full px-4 md:px-6 py-4"
-          *ngFor="let slide of slides"
-          [style.backgroundColor]="slide.backgroundColor"
+          class="slide flex flex-col md:flex-row items-center justify-between w-full px-4 md:px-6 py-4 relative"
+          *ngFor="let slide of slides; let i = index"
+          [style.background]="i === 0 ? 'linear-gradient(90deg, #FF5733 0%, #FFC300 100%)' : getGradient(slide.backgroundColor)"
         >
+          <!-- Overlay -->
+          <div class="overlay absolute inset-0 bg-black opacity-50"></div>
+
           <!-- Imagen -->
-          <div class="w-full md:w-1/2 flex justify-center">
+          <div class="w-full md:w-1/2 flex justify-center relative z-10">
             <img
               [src]="slide.imageUrl"
               alt="Slider Image"
@@ -27,7 +30,7 @@ import { CommonModule } from '@angular/common';
 
           <!-- Contenido -->
           <div
-            class="text-center md:text-left w-full md:w-1/2 flex flex-col items-center md:items-start mt-4 md:mt-0 md:ml-6 max-w-[90%] mx-auto"
+            class="text-center md:text-left w-full md:w-1/2 flex flex-col items-center md:items-start mt-4 md:mt-0 md:ml-6 max-w-[90%] mx-auto relative z-10"
           >
             <h2 class="text-xl md:text-3xl font-bold text-white mb-2">
               {{ slide.slogan }}
@@ -54,6 +57,17 @@ import { CommonModule } from '@angular/common';
           ›
         </button>
       </div>
+
+      <!-- Indicadores -->
+      <div class="slider-indicators absolute bottom-2 md:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+        <span
+          *ngFor="let slide of slides; let i = index"
+          class="indicator w-3 h-3 rounded-full cursor-pointer"
+          [class.bg-white]="currentIndex === i"
+          [class.bg-gray-500]="currentIndex !== i"
+          (click)="goToSlide(i)"
+        ></span>
+      </div>
     </div>
   `,
   styles: [
@@ -78,6 +92,13 @@ import { CommonModule } from '@angular/common';
         padding: 20px;
         color: white;
       }
+      .overlay {
+        position: absolute;
+        inset: 0;
+        background-color: black;
+        opacity: 0.2;
+        z-index: 1;
+      }
       .slider-controls {
         position: absolute;
         top: 50%;
@@ -85,6 +106,32 @@ import { CommonModule } from '@angular/common';
         display: flex;
         justify-content: space-between;
         transform: translateY(-50%);
+      }
+      .slider-indicators {
+        position: absolute;
+        bottom: 0.5rem; /* Ajuste para dispositivos móviles */
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 0.5rem;
+      }
+      @media (min-width: 768px) {
+        .slider-indicators {
+          bottom: 1rem; /* Ajuste para dispositivos más grandes */
+        }
+      }
+      .indicator {
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 50%;
+        background-color: #ccc;
+        cursor: pointer;
+      }
+      .indicator.bg-white {
+        background-color: white;
+      }
+      .indicator.bg-gray-500 {
+        background-color: #6b7280;
       }
     `,
   ],
@@ -129,7 +176,32 @@ export class SliderComponent {
     }
   }
 
+  goToSlide(index: number) {
+    this.currentIndex = index;
+  }
+
   get currentSlide() {
     return this.slides[this.currentIndex];
+  }
+
+  getGradient(color: string): string {
+    return `linear-gradient(90deg, ${color} 0%, ${this.lightenColor(color, 0.5)} 100%)`;
+  }
+
+  lightenColor(color: string, percent: number): string {
+    const num = parseInt(color.replace("#", ""), 16),
+      amt = Math.round(2.55 * percent * 100),
+      R = (num >> 16) + amt,
+      G = ((num >> 8) & 0x00ff) + amt,
+      B = (num & 0x0000ff) + amt;
+    return (
+      "#" +
+      (0x1000000 +
+        (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 +
+        (G < 255 ? (G < 1 ? 0 : G) : 255) * 0x100 +
+        (B < 255 ? (B < 1 ? 0 : B) : 255))
+        .toString(16)
+        .slice(1)
+    );
   }
 }

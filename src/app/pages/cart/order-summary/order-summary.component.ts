@@ -12,7 +12,7 @@ import { PrimaryButtonComponent } from '../../../components/primary-button/prima
       <div class="flex flex-col gap-4">
         <div class="flex gap-4">
           <span class="text-lg">Total</span>
-          <span class="text-lg font-bold">{{ '$ ' + total() }}</span>
+          <span class="text-lg font-bold">{{ '€ ' + total() }}</span>
         </div>
         <app-primary-button label="Proceder al pago" />
       </div>

@@ -4,13 +4,14 @@ import { ProductsService } from '../../services/products.service';
 import { Product } from '../../models/products.models';
 import { CartService } from '../../services/cart.service';
 import { PrimaryButtonComponent } from '../../components/primary-button/primary-button.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-detail',
   imports: [PrimaryButtonComponent],
   template: `
     <div
-      class="bg-white shadow-md border rounded-xl p-6 flex flex-col gap-6 max-w-xl mx-auto mt-8 mb-8"
+      class="bg-white shadow-md border rounded-xl p-6 flex flex-col gap-6 max-w-xl mx-auto mt-8 mb-8 " 
     >
       <div class="mx-auto">
         <img [src]="product?.image" class="w-[300px] h-[auto] object-contain" />
@@ -67,6 +68,12 @@ export class ProductDetailComponent implements OnInit {
   addToCart() {
     if (this.product) {
       this.CartService.addToCart(this.product);
+      Swal.fire({
+        title: 'Producto añadido',
+        text: `El producto "${this.product.title}" ha sido añadido a la cesta.`,
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
     }
   }
 }
