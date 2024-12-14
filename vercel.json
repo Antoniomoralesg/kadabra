@@ -1,5 +1,4 @@
 {
-
   "version": 2,
   "builds": [
     {
@@ -13,7 +12,7 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/"
+      "destination": "/index.html"
     }
   ],
   "build": {
