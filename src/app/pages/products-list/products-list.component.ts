@@ -5,9 +5,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Product } from '../../models/products.models';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductsService } from '../../services/products.service';
-import { PromoBannerComponent } from '../../components/promo-banner/promo-banner.component';
-
-
 
 @Component({
   selector: 'app-products-list',
@@ -17,12 +14,8 @@ import { PromoBannerComponent } from '../../components/promo-banner/promo-banner
     MatIconModule,
     MatProgressSpinnerModule,
     ProductCardComponent,
-    PromoBannerComponent,
-    
-    
   ],
   template: `
-    <app-promo-banner></app-promo-banner>
     <div class="p-4 space-y-4 flex justify-center">
       <div class="relative w-full max-w-md">
         <input
@@ -45,7 +38,8 @@ import { PromoBannerComponent } from '../../components/promo-banner/promo-banner
         [class.text-white]="selectedCategory === category"
         [class.bg-white-200]="selectedCategory !== category"
       >
-        {{ category }}
+        <mat-icon>{{ categoryIconMap[category] || 'category' }}</mat-icon>
+        {{ categoryMap[category] || category }}
       </button>
     </div>
 
@@ -82,10 +76,8 @@ import { PromoBannerComponent } from '../../components/promo-banner/promo-banner
         {{ i + 1 }}
       </button>
     </div>
-
-  
   `,
-   styles: [
+  styles: [
     `
       .flex-wrap {
         flex-wrap: wrap;
@@ -132,6 +124,22 @@ export class ProductsListComponent implements OnInit {
   productsPerPage = signal<number>(6);
   totalPages = signal<number>(0);
   paginatedProducts = signal<Product[]>([]);
+
+  // Mapeo de categorías a nombres personalizados
+  categoryMap: { [key: string]: string } = {
+    "men's clothing": "Ropa de Hombre",
+    "women's clothing": "Ropa de Mujer",
+    "jewelery": "Joyería",
+    "electronics": "Electrónica"
+  };
+
+  // Mapeo de categorías a íconos
+  categoryIconMap: { [key: string]: string } = {
+    "men's clothing": "male",
+    "women's clothing": "female",
+    "jewelery": "diamond",
+    "electronics": "devices"
+  };
 
   constructor(private productsService: ProductsService) {}
 

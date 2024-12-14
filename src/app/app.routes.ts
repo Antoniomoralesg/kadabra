@@ -12,18 +12,21 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: HomeComponent,
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule),
   },
   {
     path: 'products',
-    component: ProductsListComponent,
+    loadChildren: () => import('./products/products.module').then(m => m.ProductsModule),
   },
   {
     path: 'cart',
     component: CartComponent,
     canActivate: [AuthGuard],
   },
-  { path: 'product/:id', component: ProductDetailComponent },
+  {
+    path: 'product/:id',
+    loadChildren: () => import('./pages/product-detail/product-detail.module').then(m => m.ProductDetailModule),
+  },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {

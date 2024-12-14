@@ -1,15 +1,15 @@
-import { CartService } from './../../../services/cart.service';
-import { Product } from './../../../models/products.models';
 import { Component, inject, Input } from '@angular/core';
-import { PrimaryButtonComponent } from '../../../components/primary-button/primary-button.component';
-import { RouterLink } from '@angular/router';
-import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { PrimaryButtonComponent } from '../../../components/primary-button/primary-button.component';
+import { Product } from '../../../models/products.models';
+import { CartService } from '../../../services/cart.service';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-card',
-  imports: [PrimaryButtonComponent, RouterModule, RouterLink, CommonModule],
+  standalone: true,
+  imports: [CommonModule, RouterLink, PrimaryButtonComponent],
   template: `
     <div class="product-card bg-white shadow-lg border border-gray-200 rounded-xl p-6 flex flex-col gap-4 relative hover:shadow-xl transition-shadow duration-300">
       <div class="mx-auto">

@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-detail',
+  standalone: true,
   imports: [PrimaryButtonComponent],
   template: `
     <div
