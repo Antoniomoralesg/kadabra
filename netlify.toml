@@ -2,8 +2,12 @@
   command = "npm run build"
   publish = "dist/angular-ecomm/browser"
 
+[build.environment]
+  NODE_VERSION = "18"
+
 [[plugins]]
   package = "@netlify/angular-runtime"
+  enabled = false
 
-  [build.environment]
-  NODE_VERSION = "18"
+
+ 
