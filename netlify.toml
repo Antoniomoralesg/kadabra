@@ -1,6 +1,6 @@
 [build]
   command = "npm run build"
-  publish = "dist/angular-ecomm/browser"
+  publish = "dist/angular-ecomm/browser/browser"
 
 [build.environment]
   NODE_VERSION = "18"
