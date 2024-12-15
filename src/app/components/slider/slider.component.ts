@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,7 +6,12 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="slider-container mt-6 relative overflow-hidden w-full">
+    <div
+      class="slider-container mt-6 relative overflow-hidden w-full"
+      (touchstart)="onTouchStart($event)"
+      (touchmove)="onTouchMove($event)"
+      (touchend)="onTouchEnd()"
+    >
       <div
         class="slider flex transition-transform duration-500 ease-in-out"
         [style.transform]="'translateX(' + (-currentIndex * 100) + '%)'"
@@ -58,17 +63,7 @@ import { CommonModule } from '@angular/common';
         </button>
       </div>
 
-      <!-- Indicadores -->
-      <div class="slider-indicators absolute bottom-2 md:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-        <span
-          *ngFor="let slide of slides; let i = index"
-          class="indicator w-3 h-3 rounded-full cursor-pointer"
-          [class.bg-white]="currentIndex === i"
-          [class.bg-gray-500]="currentIndex !== i"
-          (click)="goToSlide(i)"
-        ></span>
-      </div>
-    </div>
+      
   `,
   styles: [
     `
@@ -159,6 +154,9 @@ export class SliderComponent {
   ];
 
   currentIndex = 0;
+  startX = 0;
+  currentX = 0;
+  isDragging = false;
 
   nextSlide() {
     if (this.currentIndex < this.slides.length - 1) {
@@ -203,5 +201,38 @@ export class SliderComponent {
         .toString(16)
         .slice(1)
     );
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.updateSliderPosition();
+  }
+
+  onTouchStart(event: TouchEvent) {
+    this.startX = event.touches[0].clientX;
+    this.isDragging = true;
+  }
+
+  onTouchMove(event: TouchEvent) {
+    if (!this.isDragging) return;
+    this.currentX = event.touches[0].clientX;
+  }
+
+  onTouchEnd() {
+    if (!this.isDragging) return;
+    const diffX = this.startX - this.currentX;
+    if (diffX > 50) {
+      this.nextSlide();
+    } else if (diffX < -50) {
+      this.prevSlide();
+    }
+    this.isDragging = false;
+  }
+
+  updateSliderPosition() {
+    const slider = document.querySelector('.slider') as HTMLElement;
+    if (slider) {
+      slider.style.transform = `translateX(-${this.currentIndex * 100}%)`;
+    }
   }
 }
