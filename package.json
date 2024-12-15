@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "19.0.4",
     "@angular/router": "19.0.4",
     "@fortawesome/fontawesome-free": "^6.7.1",
+    "@netlify/angular-runtime": "^2.2.1",
     "autoprefixer": "^10.4.20",
     "canvas-confetti": "^1.9.3",
     "postcss": "^8.4.49",
