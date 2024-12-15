@@ -41,7 +41,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/angular-ecomm",
+            "outputPath": "dist/angular-ecomm/browser",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
