@@ -8,6 +8,5 @@
 [[plugins]]
   package = "@netlify/angular-runtime"
 
-  # Si necesitas configurar entradas para el plugin (inputs):
-  # [plugins.inputs]
-  # Aquí puedes agregar configuraciones específicas si el plugin las soporta.
+  [plugins.inputs]
+  publish = "dist/angular-ecomm/browser"
