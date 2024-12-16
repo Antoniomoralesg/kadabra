@@ -5,18 +5,20 @@ import { ProductDetailComponent } from './pages/product-detail/product-detail.co
 import { CartComponent } from './pages/cart/cart.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
-import { ProtectedComponent } from './pages/protected/protected.component'; // Asegúrate de que la ruta sea correcta
+import { ProtectedComponent } from './pages/protected/protected.component';
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule),
+    loadChildren: () =>
+      import('./pages/home/home.module').then((m) => m.HomeModule),
   },
   {
     path: 'products',
-    loadChildren: () => import('./products/products.module').then(m => m.ProductsModule),
+    loadChildren: () =>
+      import('./products/products.module').then((m) => m.ProductsModule),
   },
   {
     path: 'cart',
@@ -25,7 +27,10 @@ export const routes: Routes = [
   },
   {
     path: 'product/:id',
-    loadChildren: () => import('./pages/product-detail/product-detail.module').then(m => m.ProductDetailModule),
+    loadChildren: () =>
+      import('./pages/product-detail/product-detail.module').then(
+        (m) => m.ProductDetailModule
+      ),
   },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

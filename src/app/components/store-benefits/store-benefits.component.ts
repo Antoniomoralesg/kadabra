@@ -10,43 +10,56 @@ import { CommonModule } from '@angular/common';
       <h2 class="text-center text-2xl font-bold mb-6">Por qué elegirnos</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="benefit-card bg-white p-6 shadow-md rounded-lg text-center">
-          <img src="/free.png" alt="Envíos gratis" class="h-24 mx-auto mb-4"/>
+          <img src="/free.png" alt="Envíos gratis" class="h-24 mx-auto mb-4" />
           <h3 class="text-xl font-semibold mb-2">Envíos Gratis</h3>
           <p>Disfruta de envío gratuito en todos tus pedidos. ¡Sin mínimos!</p>
         </div>
         <div class="benefit-card bg-white p-6 shadow-md rounded-lg text-center">
-          <img src="/devo.png" alt="Devoluciones 100%" class="h-24 mx-auto mb-4"/>
+          <img
+            src="/devo.png"
+            alt="Devoluciones 100%"
+            class="h-24 mx-auto mb-4"
+          />
           <h3 class="text-xl font-semibold mb-2">Devoluciones 100%</h3>
-          <p>Si no te gusta, puedes devolverlo sin problemas. ¡Fácil y rápido!</p>
+          <p>
+            Si no te gusta, puedes devolverlo sin problemas. ¡Fácil y rápido!
+          </p>
         </div>
         <div class="benefit-card bg-white p-6 shadow-md rounded-lg text-center">
-          <img src="/apoyo.png" alt="Soporte al Cliente 24/7" class="h-24 mx-auto mb-4"/>
+          <img
+            src="/apoyo.png"
+            alt="Soporte al Cliente 24/7"
+            class="h-24 mx-auto mb-4"
+          />
           <h3 class="text-xl font-semibold mb-2">Soporte al Cliente 24/7</h3>
-          <p>Te atendemos a cualquier hora. ¡Estamos siempre disponibles para ayudarte!</p>
+          <p>
+            Te atendemos a cualquier hora. ¡Estamos siempre disponibles para
+            ayudarte!
+          </p>
         </div>
       </div>
     </div>
   `,
   styles: [
     `
-    .benefits-container {
-      background-color: white;
-    }
-    .benefit-card {
-      border: 2px solid #FFA500; /* Color naranja */
-      border-radius: 8px; /* Opcional, para bordes redondeados */
-      
-      padding: 1rem; /* Espaciado interno */
-      transition: transform 0.3s ease-in-out;
-    }
-    .benefit-card img {
-      object-fit: contain;
-    }
-    .benefit-card:hover {
-      transform: scale(1.05);
-      transition: all 0.3s ease-in-out;
-    }
-  `,
+      .benefits-container {
+        background-color: white;
+      }
+      .benefit-card {
+        border: 2px solid #ffa500;
+        border-radius: 8px;
+
+        padding: 1rem;
+        transition: transform 0.3s ease-in-out;
+      }
+      .benefit-card img {
+        object-fit: contain;
+      }
+      .benefit-card:hover {
+        transform: scale(1.05);
+        transition: all 0.3s ease-in-out;
+      }
+    `,
   ],
 })
 export class StoreBenefitsComponent {}

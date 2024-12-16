@@ -5,11 +5,6 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HeaderComponent,
-    FooterComponent
-  ]
+  imports: [BrowserModule, AppRoutingModule, HeaderComponent, FooterComponent],
 })
-export class AppModule { }
+export class AppModule {}

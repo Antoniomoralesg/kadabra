@@ -16,7 +16,7 @@ import { of } from 'rxjs';
   imports: [PrimaryButtonComponent, MatIconModule],
   template: `
     <div
-      class="bg-white shadow-md border rounded-xl p-6 flex flex-col gap-6 max-w-xl mx-auto mt-8 mb-8 " 
+      class="bg-white shadow-md border rounded-xl p-6 flex flex-col gap-6 max-w-xl mx-auto mt-8 mb-8 "
     >
       <button (click)="goBack()" class="back-button mb-4 flex items-center">
         <mat-icon>arrow_back</mat-icon>
@@ -49,16 +49,17 @@ import { of } from 'rxjs';
       </div>
     </div>
   `,
-  styles: [`
-    .back-button {
-      color: #f97316; /* Cambia el color aquí */
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    
-  `],
+  styles: [
+    `
+      .back-button {
+        color: #f97316;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+      }
+    `,
+  ],
 })
 export class ProductDetailComponent implements OnInit {
   product: Product | undefined;
@@ -78,12 +79,12 @@ export class ProductDetailComponent implements OnInit {
       this.productsService
         .getProductDetails(Number(productId))
         .pipe(
-          catchError(error => {
+          catchError((error) => {
             console.error('Error al cargar el producto:', error);
             return of(undefined);
           })
         )
-        .subscribe(product => {
+        .subscribe((product) => {
           this.product = product;
         });
     }
@@ -97,7 +98,7 @@ export class ProductDetailComponent implements OnInit {
         title: 'Producto añadido',
         text: `El producto "${this.product.title}" ha sido añadido a la cesta.`,
         icon: 'success',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
       });
     }
   }

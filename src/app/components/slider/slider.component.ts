@@ -14,12 +14,16 @@ import { CommonModule } from '@angular/common';
     >
       <div
         class="slider flex transition-transform duration-500 ease-in-out"
-        [style.transform]="'translateX(' + (-currentIndex * 100) + '%)'"
+        [style.transform]="'translateX(' + -currentIndex * 100 + '%)'"
       >
         <div
           class="slide flex flex-col md:flex-row items-center justify-between w-full px-4 md:px-6 py-4 relative"
           *ngFor="let slide of slides; let i = index"
-          [style.background]="i === 0 ? 'linear-gradient(90deg, #FF5733 0%, #FFC300 100%)' : getGradient(slide.backgroundColor)"
+          [style.background]="
+            i === 0
+              ? 'linear-gradient(90deg, #FF5733 0%, #FFC300 100%)'
+              : getGradient(slide.backgroundColor)
+          "
         >
           <!-- Overlay -->
           <div class="overlay absolute inset-0 bg-black opacity-50"></div>
@@ -40,7 +44,9 @@ import { CommonModule } from '@angular/common';
             <h2 class="text-xl md:text-3xl font-bold text-white mb-2">
               {{ slide.slogan }}
             </h2>
-            <p class="text-sm md:text-base text-white">{{ slide.description }}</p>
+            <p class="text-sm md:text-base text-white">
+              {{ slide.description }}
+            </p>
           </div>
         </div>
       </div>
@@ -62,8 +68,7 @@ import { CommonModule } from '@angular/common';
           ›
         </button>
       </div>
-
-      
+    </div>
   `,
   styles: [
     `
@@ -104,7 +109,7 @@ import { CommonModule } from '@angular/common';
       }
       .slider-indicators {
         position: absolute;
-        bottom: 0.5rem; /* Ajuste para dispositivos móviles */
+        bottom: 0.5rem;
         left: 50%;
         transform: translateX(-50%);
         display: flex;
@@ -112,7 +117,7 @@ import { CommonModule } from '@angular/common';
       }
       @media (min-width: 768px) {
         .slider-indicators {
-          bottom: 1rem; /* Ajuste para dispositivos más grandes */
+          bottom: 1rem;
         }
       }
       .indicator {
@@ -183,21 +188,26 @@ export class SliderComponent {
   }
 
   getGradient(color: string): string {
-    return `linear-gradient(90deg, ${color} 0%, ${this.lightenColor(color, 0.5)} 100%)`;
+    return `linear-gradient(90deg, ${color} 0%, ${this.lightenColor(
+      color,
+      0.5
+    )} 100%)`;
   }
 
   lightenColor(color: string, percent: number): string {
-    const num = parseInt(color.replace("#", ""), 16),
+    const num = parseInt(color.replace('#', ''), 16),
       amt = Math.round(2.55 * percent * 100),
       R = (num >> 16) + amt,
       G = ((num >> 8) & 0x00ff) + amt,
       B = (num & 0x0000ff) + amt;
     return (
-      "#" +
-      (0x1000000 +
+      '#' +
+      (
+        0x1000000 +
         (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 +
         (G < 255 ? (G < 1 ? 0 : G) : 255) * 0x100 +
-        (B < 255 ? (B < 1 ? 0 : B) : 255))
+        (B < 255 ? (B < 1 ? 0 : B) : 255)
+      )
         .toString(16)
         .slice(1)
     );

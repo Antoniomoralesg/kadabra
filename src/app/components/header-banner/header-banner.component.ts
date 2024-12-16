@@ -15,8 +15,8 @@ import { CommonModule } from '@angular/common';
   styles: [
     `
       .header-banner {
-        background: linear-gradient(90deg, #FFD700 0%, #FFEA00 100%); /* Degradado amarillo */
-        color: #000000; /* Texto negro para mejor legibilidad */
+        background: linear-gradient(90deg, #ffd700 0%, #ffea00 100%);
+        color: #000000;
         padding: 0.5rem 1rem;
         text-align: center;
         font-size: 1rem;

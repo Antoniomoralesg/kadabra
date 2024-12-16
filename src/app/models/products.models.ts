@@ -2,10 +2,10 @@ export interface Product {
   id: number;
   title: string;
   price: number;
-  uniqueId?: string; 
+  uniqueId?: string;
   image: string;
   stock: number;
-  quantity?: number; // Añadir la propiedad quantity
+  quantity?: number;
   description?: string;
   category?: string;
   rating?: {

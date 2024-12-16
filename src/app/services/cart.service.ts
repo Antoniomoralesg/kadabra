@@ -19,7 +19,6 @@ export class CartService {
     this.cart.set([...currentCart, newProduct]);
     this.saveCart();
   }
-  
 
   removeFromCart(product: Product) {
     const currentCart = this.cart();
@@ -31,9 +30,6 @@ export class CartService {
     this.cart.set([]); // Vaciamos el carrito
     this.saveCart(); // Guardamos el carrito vacío en localStorage
   }
-  
-
-  
 
   constructor() {}
 }

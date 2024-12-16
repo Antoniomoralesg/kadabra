@@ -9,7 +9,14 @@ import { PromoBannerComponent } from '../../components/promo-banner/promo-banner
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ProductsListComponent, SliderComponent, StoreBenefitsComponent, UserReviewsComponent, NewsletterComponent,PromoBannerComponent],
+  imports: [
+    ProductsListComponent,
+    SliderComponent,
+    StoreBenefitsComponent,
+    UserReviewsComponent,
+    NewsletterComponent,
+    PromoBannerComponent,
+  ],
   template: `
     <app-slider></app-slider>
     <app-promo-banner></app-promo-banner>
@@ -17,8 +24,7 @@ import { PromoBannerComponent } from '../../components/promo-banner/promo-banner
     <app-store-benefits></app-store-benefits>
     <app-user-reviews></app-user-reviews>
     <app-newsletter></app-newsletter>
-    
   `,
-  styles: []
+  styles: [],
 })
 export class HomeComponent {}

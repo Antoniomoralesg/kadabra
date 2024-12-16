@@ -6,7 +6,9 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-cart-item',
   template: `
-    <div class="bg-white shadow-md border rounded-xl p-6 flex gap-4 items-center">
+    <div
+      class="bg-white shadow-md border rounded-xl p-6 flex gap-4 items-center"
+    >
       <img [src]="item.image" class="w-[50px] h-[50px] object-contain" />
       <div class="flex flex-col">
         <span class="text-md font-bold">{{ truncateTitle(item.title) }}</span>
@@ -16,20 +18,22 @@ import Swal from 'sweetalert2';
       <button class="btn-red" (click)="confirmRemove()">Eliminar</button>
     </div>
   `,
-  styles: [`
-    .btn-red {
-      background-color: #dc2626; 
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 0.375rem;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-    .btn-red:hover {
-      background-color: #b91c1c; 
-    }
-  `]
+  styles: [
+    `
+      .btn-red {
+        background-color: #dc2626;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+      .btn-red:hover {
+        background-color: #b91c1c;
+      }
+    `,
+  ],
 })
 export class CartItemComponent {
   @Input() item!: Product;
@@ -37,7 +41,9 @@ export class CartItemComponent {
   cartService = inject(CartService);
 
   truncateTitle(title: string, maxLength: number = 30): string {
-    return title.length > maxLength ? title.substring(0, maxLength) + '...' : title;
+    return title.length > maxLength
+      ? title.substring(0, maxLength) + '...'
+      : title;
   }
 
   confirmRemove() {
@@ -49,7 +55,7 @@ export class CartItemComponent {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
+      cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
         this.cartService.removeFromCart(this.item);

@@ -13,27 +13,27 @@ export class ProductsService {
   constructor(private http: HttpClient) {}
 
   getAllProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.baseUrl).pipe(
-      catchError(this.handleError)
-    );
+    return this.http
+      .get<Product[]>(this.baseUrl)
+      .pipe(catchError(this.handleError));
   }
 
   getProductsByCategory(category: string): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.baseUrl}/category/${category}`).pipe(
-      catchError(this.handleError)
-    );
+    return this.http
+      .get<Product[]>(`${this.baseUrl}/category/${category}`)
+      .pipe(catchError(this.handleError));
   }
 
   getProductDetails(productId: number): Observable<Product> {
-    return this.http.get<Product>(`${this.baseUrl}/${productId}`).pipe(
-      catchError(this.handleError)
-    );
+    return this.http
+      .get<Product>(`${this.baseUrl}/${productId}`)
+      .pipe(catchError(this.handleError));
   }
 
   getCategories(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.baseUrl}/categories`).pipe(
-      catchError(this.handleError)
-    );
+    return this.http
+      .get<string[]>(`${this.baseUrl}/categories`)
+      .pipe(catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {
