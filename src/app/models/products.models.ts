@@ -2,9 +2,10 @@ export interface Product {
   id: number;
   title: string;
   price: number;
-  uniqueId?: string; // Campo adicional para identificar instancias únicas
+  uniqueId?: string; 
   image: string;
   stock: number;
+  quantity?: number; // Añadir la propiedad quantity
   description?: string;
   category?: string;
   rating?: {

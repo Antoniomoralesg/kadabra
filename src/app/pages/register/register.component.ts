@@ -20,7 +20,7 @@ import Swal from 'sweetalert2';
             <input type="password" id="password" [(ngModel)]="password" name="password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
           </div>
           <div>
-            <button type="submit" class="w-full bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Register</button>
+            <button type="submit" class="w-full bg-orange-500 text-white py-2 px-4 rounded-md">Registrarse</button>
           </div>
           <div class="mt-4 text-center">
             <a routerLink="/login" class="text-indigo-600 hover:text-indigo-900">Una vez registrado, ¡inicia sesión!</a>

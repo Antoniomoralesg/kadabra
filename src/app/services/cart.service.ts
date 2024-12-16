@@ -31,6 +31,7 @@ export class CartService {
     this.cart.set([]); // Vaciamos el carrito
     this.saveCart(); // Guardamos el carrito vacío en localStorage
   }
+  
 
   
 

@@ -5,6 +5,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Product } from '../../models/products.models';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductsService } from '../../services/products.service';
+import { catchError, finalize } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-products-list',
@@ -29,18 +31,25 @@ import { ProductsService } from '../../services/products.service';
     </div>
 
     <!-- Botones de categorías -->
-    <div class="flex flex-wrap justify-center space-x-2 my-4">
-      <button
-        *ngFor="let category of displayCategories"
-        (click)="filterByCategory(category)"
-        class="px-4 py-2 rounded-lg text-sm font-semibold border"
-        [class.bg-orange-500]="selectedCategory === category"
-        [class.text-white]="selectedCategory === category"
-        [class.bg-white-200]="selectedCategory !== category"
-      >
-        <mat-icon>{{ categoryIconMap[category] || 'category' }}</mat-icon>
-        {{ categoryMap[category] || category }}
-      </button>
+    <div
+      class="categories-container my-4"
+      (touchstart)="onTouchStart($event)"
+      (touchmove)="onTouchMove($event)"
+      (touchend)="onTouchEnd()"
+    >
+      <div class="categories flex space-x-2 justify-center">
+        <button
+          *ngFor="let category of displayCategories"
+          (click)="filterByCategory(category)"
+          class="px-4 py-2 rounded-lg text-sm font-semibold border category-button"
+          [class.bg-orange-500]="selectedCategory === category"
+          [class.text-white]="selectedCategory === category"
+          [class.bg-white-200]="selectedCategory !== category"
+        >
+          <mat-icon>{{ categoryIconMap[category] || 'category' }}</mat-icon>
+          {{ categoryMap[category] || category }}
+        </button>
+      </div>
     </div>
 
     <!-- Loader -->
@@ -66,7 +75,7 @@ import { ProductsService } from '../../services/products.service';
     </div>
 
     <!-- Paginación -->
-    <div *ngIf="!loading()" class="mt-6 flex justify-center mb-6">
+    <div *ngIf="!loading() && totalPages() > 1" class="mt-6 flex justify-center mb-6">
       <button
         *ngFor="let page of pages(); let i = index"
         class="px-4 py-2 mx-1 text-sm font-semibold bg-gray-300 rounded-lg"
@@ -79,6 +88,19 @@ import { ProductsService } from '../../services/products.service';
   `,
   styles: [
     `
+      .categories-container {
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+      .categories {
+        display: inline-flex;
+        justify-content: center;
+        width: 100%;
+      }
+      .category-button {
+        margin: 0.5rem;
+      }
       .flex-wrap {
         flex-wrap: wrap;
       }
@@ -102,13 +124,17 @@ import { ProductsService } from '../../services/products.service';
         z-index: 9999;
       }
       @media (max-width: 640px) {
-        .space-x-2 {
-          flex-direction: column;
-          align-items: center;
+        .categories-container {
+          overflow-x: auto;
+          white-space: nowrap;
         }
-        .space-x-2 > * {
-          margin-right: 0;
-          margin-bottom: 0.5rem;
+        .categories {
+          display: inline-flex;
+          justify-content: flex-start;
+        }
+        .category-button {
+          flex: 1 1 auto;
+          margin: 0.25rem;
         }
       }
     `,
@@ -141,30 +167,39 @@ export class ProductsListComponent implements OnInit {
     "electronics": "devices"
   };
 
+  startX = 0;
+  currentX = 0;
+  isDragging = false;
+
   constructor(private productsService: ProductsService) {}
 
-  async ngOnInit() {
-    try {
-      this.loading.set(true);
-      const [productsData, categoriesData] = await Promise.all([
-        this.productsService.getAllProducts(),
-        this.productsService.getCategories(),
-      ]);
+  ngOnInit() {
+    this.loading.set(true);
+    this.productsService.getAllProducts().pipe(
+      catchError(error => {
+        console.error('Error al cargar los productos:', error);
+        return of([]);
+      }),
+      finalize(() => this.loading.set(false))
+    ).subscribe(productsData => {
       this.products.set(productsData);
-      this.categories.set(categoriesData);
-
-      // Preparamos las categorías para el uso en la plantilla
-      this.displayCategories = ['Todos', ...this.categories()];
-
-      this.totalPages.set(
-        Math.ceil(this.products().length / this.productsPerPage())
-      );
+      this.updateTotalPages();
       this.updatePaginatedProducts();
-    } catch (error) {
-      console.error('Error al cargar los datos:', error);
-    } finally {
-      this.loading.set(false);
-    }
+    });
+
+    this.productsService.getCategories().pipe(
+      catchError(error => {
+        console.error('Error al cargar las categorías:', error);
+        return of([]);
+      })
+    ).subscribe(categoriesData => {
+      this.categories.set(categoriesData);
+      this.displayCategories = ['Todos', ...this.categories()];
+    });
+  }
+
+  updateTotalPages() {
+    this.totalPages.set(Math.ceil(this.products().length / this.productsPerPage()));
   }
 
   updatePaginatedProducts() {
@@ -178,49 +213,65 @@ export class ProductsListComponent implements OnInit {
     this.updatePaginatedProducts();
   }
 
-  async filterByCategory(category: string) {
+  filterByCategory(category: string) {
     this.selectedCategory = category;
     this.loading.set(true);
-    try {
-      if (category === 'Todos') {
-        const allProducts = await this.productsService.getAllProducts();
-        this.products.set(allProducts);
-      } else {
-        const filteredProducts =
-          await this.productsService.getProductsByCategory(category);
-        this.products.set(filteredProducts);
-      }
-      this.totalPages.set(
-        Math.ceil(this.products().length / this.productsPerPage())
-      );
+    const products$ = category === 'Todos'
+      ? this.productsService.getAllProducts()
+      : this.productsService.getProductsByCategory(category);
+
+    products$.pipe(
+      catchError(error => {
+        console.error('Error al filtrar por categoría:', error);
+        return of([]);
+      }),
+      finalize(() => this.loading.set(false))
+    ).subscribe(filteredProducts => {
+      this.products.set(filteredProducts);
+      this.currentPage.set(1); // Reset to first page after filtering
+      this.updateTotalPages();
       this.updatePaginatedProducts();
-    } catch (error) {
-      console.error('Error al filtrar por categoría:', error);
-    } finally {
-      this.loading.set(false);
+    });
+  }
+
+  filterByName(event: Event) {
+    const query = (event.target as HTMLInputElement).value.toLowerCase();
+    this.loading.set(true);
+    this.productsService.getAllProducts().pipe(
+      catchError(error => {
+        console.error('Error al filtrar por nombre:', error);
+        return of([]);
+      }),
+      finalize(() => this.loading.set(false))
+    ).subscribe(allProducts => {
+      const filteredProducts = allProducts.filter(product =>
+        product.title.toLowerCase().includes(query)
+      );
+      this.products.set(filteredProducts);
+      this.currentPage.set(1); // Reset to first page after filtering
+      this.updateTotalPages();
+      this.updatePaginatedProducts();
+    });
+  }
+
+  onTouchStart(event: TouchEvent) {
+    this.startX = event.touches[0].clientX;
+    this.isDragging = true;
+  }
+
+  onTouchMove(event: TouchEvent) {
+    if (!this.isDragging) return;
+    this.currentX = event.touches[0].clientX;
+    const diffX = this.startX - this.currentX;
+    const container = document.querySelector('.categories-container') as HTMLElement;
+    if (container) {
+      container.scrollLeft += diffX;
+      this.startX = this.currentX;
     }
   }
 
-  async filterByName(event: Event) {
-    const query = (event.target as HTMLInputElement).value;
-    this.loading.set(true);
-    try {
-      const allProducts: Product[] =
-        await this.productsService.getAllProducts();
-      const filteredProducts = allProducts.filter((product) =>
-        product.title.toLowerCase().includes(query.toLowerCase())
-      );
-      this.products.set(filteredProducts);
-      this.totalPages.set(
-        Math.ceil(this.products().length / this.productsPerPage())
-      );
-      this.updatePaginatedProducts();
-    } catch (error) {
-      console.error('Error al filtrar por nombre:', error);
-      this.products.set([]);
-    } finally {
-      this.loading.set(false);
-    }
+  onTouchEnd() {
+    this.isDragging = false;
   }
 
   pages() {
