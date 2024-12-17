@@ -7,6 +7,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ProtectedComponent } from './pages/protected/protected.component';
 import { AuthGuard } from './guards/auth.guard';
+import { FaqsComponent } from './pages/faqs/faqs.component';
 
 export const routes: Routes = [
   {
@@ -47,6 +48,10 @@ export const routes: Routes = [
     path: 'register',
     loadChildren: () =>
       import('./pages/register/register.module').then((m) => m.RegisterModule),
+  },
+  {
+    path: 'faqs',
+    component: FaqsComponent, 
   },
   {
     path: 'protected',

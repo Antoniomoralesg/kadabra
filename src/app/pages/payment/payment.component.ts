@@ -17,19 +17,21 @@ import { RouterModule } from '@angular/router';
       <router-outlet></router-outlet>
     </div>
   `,
-  styles: [`
-    .progress-bar div {
-      flex: 1;
-      text-align: center;
-      padding: 0.5rem;
-      border-bottom: 2px solid #ccc;
-      color: #ff9800; /* Color naranja */
-    }
-    .progress-bar div.active {
-      border-bottom: 2px solid #ff9800; /* Color naranja */
-      font-weight: bold;
-    }
-  `]
+  styles: [
+    `
+      .progress-bar div {
+        flex: 1;
+        text-align: center;
+        padding: 0.5rem;
+        border-bottom: 2px solid #ccc;
+        
+      }
+      .progress-bar div.active {
+        border-bottom: 2px solid #ff9800;
+        font-weight: bold;
+      }
+    `,
+  ],
 })
 export class PaymentComponent {
   isActive(step: string): boolean {

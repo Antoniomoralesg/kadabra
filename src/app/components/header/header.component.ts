@@ -20,9 +20,7 @@ import Swal from 'sweetalert2';
   ],
   template: `
     <app-header-banner></app-header-banner>
-    <div
-      class="bg-white-800 px-4 py-1 shadow-md flex justify-between items-center"
-    >
+    <div class="bg-white-800 px-4 py-1 shadow-md flex justify-between items-center">
       <button class="text-2xl flex items-center space-x-2" routerLink="/">
         <img
           src="/logo.png"
@@ -51,13 +49,13 @@ import Swal from 'sweetalert2';
           >
             <a
               routerLink="/login"
-              class="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+              class="block px-4 py-2 text-gray-800 hover:bg-orange-500 hover:text-white"
               >Login</a
             >
             <a
               routerLink="/register"
-              class="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-              >Register</a
+              class="block px-4 py-2 text-gray-800 hover:bg-orange-500 hover:text-white"
+              >Registro</a
             >
           </div>
         </div>

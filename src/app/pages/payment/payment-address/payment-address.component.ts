@@ -12,26 +12,7 @@ import { FormsModule } from '@angular/forms';
       <h2 class="text-2xl mb-4 font-bold">Dirección de Envío</h2>
       <form (ngSubmit)="nextStep()">
         <!-- Campos de dirección -->
-        <div class="mb-4">
-          <label class="block mb-2">Nombre</label>
-          <input
-            type="text"
-            [(ngModel)]="firstName"
-            name="firstName"
-            class="p-2 border rounded w-full"
-            required
-          />
-        </div>
-        <div class="mb-4">
-          <label class="block mb-2">Apellidos</label>
-          <input
-            type="text"
-            [(ngModel)]="lastName"
-            name="lastName"
-            class="p-2 border rounded w-full"
-            required
-          />
-        </div>
+        
         <div class="mb-4">
           <label class="block mb-2">Dirección</label>
           <input
@@ -103,8 +84,7 @@ import { FormsModule } from '@angular/forms';
   styles: [],
 })
 export class PaymentAddressComponent {
-  firstName = '';
-  lastName = '';
+  
   address = '';
   
   postalCode = '';

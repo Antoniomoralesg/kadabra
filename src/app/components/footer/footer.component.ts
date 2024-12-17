@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
+  imports: [RouterLink],
   template: `
     <footer class="bg-gray-900 text-white py-10">
       <div
@@ -26,7 +28,9 @@ import { Component } from '@angular/core';
               >
             </li>
             <li>
-              <a href="/products" class="hover:text-gray-400 transition-colors"
+              <a
+                routerLink="/products"
+                class="hover:text-gray-400 transition-colors"
                 >Productos</a
               >
             </li>
@@ -36,7 +40,11 @@ import { Component } from '@angular/core';
               >
             </li>
             <li>
-              <a href="#" class="hover:text-gray-400 transition-colors">FAQs</a>
+            <a
+                routerLink="/faqs"
+                class="hover:text-gray-400 transition-colors"
+                >FAQs</a
+              >
             </li>
           </ul>
         </div>
