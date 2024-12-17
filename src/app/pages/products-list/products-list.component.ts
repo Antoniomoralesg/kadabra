@@ -150,7 +150,7 @@ export class ProductsListComponent implements OnInit {
   selectedCategory = 'Todos';
   loading = signal<boolean>(true);
   currentPage = signal<number>(1);
-  productsPerPage = signal<number>(6);
+  productsPerPage = signal<number>(4);
   totalPages = signal<number>(0);
   paginatedProducts = signal<Product[]>([]);
 
