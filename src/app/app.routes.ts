@@ -22,7 +22,8 @@ export const routes: Routes = [
   },
   {
     path: 'cart',
-    component: CartComponent,
+    loadChildren: () =>
+      import('./pages/cart/cart.module').then((m) => m.CartModule),
     canActivate: [AuthGuard],
   },
   {
@@ -32,8 +33,21 @@ export const routes: Routes = [
         (m) => m.ProductDetailModule
       ),
   },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  {
+    path: 'payment',
+    loadChildren: () =>
+      import('./pages/payment/payment.module').then((m) => m.PaymentModule),
+  },
+  {
+    path: 'login',
+    loadChildren: () =>
+      import('./pages/login/login.module').then((m) => m.LoginModule),
+  },
+  {
+    path: 'register',
+    loadChildren: () =>
+      import('./pages/register/register.module').then((m) => m.RegisterModule),
+  },
   {
     path: 'protected',
     component: ProtectedComponent, // Componente protegido

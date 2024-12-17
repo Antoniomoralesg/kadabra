@@ -1,6 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { CartService } from '../../../services/cart.service';
-import { ButtonComponent } from '../../../components/button/button.component';
 import { PrimaryButtonComponent } from '../../../components/primary-button/primary-button.component';
 
 @Component({
@@ -14,21 +14,25 @@ import { PrimaryButtonComponent } from '../../../components/primary-button/prima
           <span class="text-lg">Total</span>
           <span class="text-lg font-bold">{{ '€ ' + total() }}</span>
         </div>
-        <app-primary-button label="Proceder al pago" />
+        <app-primary-button label="Proceder al pago" (btnClicked)="proceedToPayment()" />
       </div>
     </div>
   `,
-  styles: ``,
+  styles: [],
 })
 export class OrderSummaryComponent {
   cartService = inject(CartService);
+  router = inject(Router);
 
   total = computed(() => {
     let total = 0;
     for (const item of this.cartService.cart()) {
       total += item.price;
     }
-
     return total;
   });
+
+  proceedToPayment() {
+    this.router.navigate(['/payment']);
+  }
 }
