@@ -8,6 +8,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { ProtectedComponent } from './pages/protected/protected.component';
 import { AuthGuard } from './guards/auth.guard';
 import { FaqsComponent } from './pages/faqs/faqs.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const routes: Routes = [
   {
@@ -57,5 +58,9 @@ export const routes: Routes = [
     path: 'protected',
     component: ProtectedComponent, // Componente protegido
     canActivate: [AuthGuard],
+  },
+  {
+    path: '**', // Ruta 404
+    component: NotFoundComponent,
   },
 ];
