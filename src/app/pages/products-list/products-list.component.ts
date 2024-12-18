@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -6,7 +6,7 @@ import { Product } from '../../models/products.models';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductsService } from '../../services/products.service';
 import { catchError, finalize } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-products-list',
@@ -143,7 +143,7 @@ import { of } from 'rxjs';
     `,
   ],
 })
-export class ProductsListComponent implements OnInit {
+export class ProductsListComponent implements OnInit, OnDestroy {
   products = signal<Product[]>([]);
   categories = signal<string[]>([]);
   displayCategories: string[] = [];
@@ -153,6 +153,7 @@ export class ProductsListComponent implements OnInit {
   productsPerPage = signal<number>(4);
   totalPages = signal<number>(0);
   paginatedProducts = signal<Product[]>([]);
+  private subscriptions: Subscription = new Subscription();
 
   // Mapeo de categorías a nombres personalizados
   categoryMap: { [key: string]: string } = {
@@ -178,7 +179,7 @@ export class ProductsListComponent implements OnInit {
 
   ngOnInit() {
     this.loading.set(true);
-    this.productsService
+    const productsSubscription = this.productsService
       .getAllProducts()
       .pipe(
         catchError((error) => {
@@ -193,7 +194,7 @@ export class ProductsListComponent implements OnInit {
         this.updatePaginatedProducts();
       });
 
-    this.productsService
+    const categoriesSubscription = this.productsService
       .getCategories()
       .pipe(
         catchError((error) => {
@@ -205,6 +206,13 @@ export class ProductsListComponent implements OnInit {
         this.categories.set(categoriesData);
         this.displayCategories = ['Todos', ...this.categories()];
       });
+
+    this.subscriptions.add(productsSubscription);
+    this.subscriptions.add(categoriesSubscription);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
   updateTotalPages() {
@@ -232,7 +240,7 @@ export class ProductsListComponent implements OnInit {
         ? this.productsService.getAllProducts()
         : this.productsService.getProductsByCategory(category);
 
-    products$
+    const filterSubscription = products$
       .pipe(
         catchError((error) => {
           console.error('Error al filtrar por categoría:', error);
@@ -246,12 +254,14 @@ export class ProductsListComponent implements OnInit {
         this.updateTotalPages();
         this.updatePaginatedProducts();
       });
+
+    this.subscriptions.add(filterSubscription);
   }
 
   filterByName(event: Event) {
     const query = (event.target as HTMLInputElement).value.toLowerCase();
     this.loading.set(true);
-    this.productsService
+    const nameFilterSubscription = this.productsService
       .getAllProducts()
       .pipe(
         catchError((error) => {
@@ -269,6 +279,8 @@ export class ProductsListComponent implements OnInit {
         this.updateTotalPages();
         this.updatePaginatedProducts();
       });
+
+    this.subscriptions.add(nameFilterSubscription);
   }
 
   onTouchStart(event: TouchEvent) {

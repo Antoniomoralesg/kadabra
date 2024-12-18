@@ -7,7 +7,6 @@ import { CartService } from './cart.service';
 })
 export class AuthService {
   private isAuthenticated = false;
-  private users = new Map<string, string>(); // Almacena usuarios y contraseñas
   private currentUser: string | null = null;
 
   constructor(private router: Router, private cartService: CartService) {
@@ -18,17 +17,20 @@ export class AuthService {
     }
   }
 
-  register(username: string, password: string): boolean {
-    if (this.users.has(username)) {
+  register(username: string, password: string, email: string, firstName: string, lastName: string): boolean {
+    const users = this.getUsers();
+    if (users[username]) {
       return false; // Usuario ya existe
     }
-    this.users.set(username, password);
+    users[username] = { password, email, firstName, lastName };
+    this.saveUsers(users);
     return true;
   }
 
   login(username: string, password: string): boolean {
-    const storedPassword = this.users.get(username);
-    if (storedPassword && storedPassword === password) {
+    const users = this.getUsers();
+    const storedUser = users[username];
+    if (storedUser && storedUser.password === password) {
       this.isAuthenticated = true;
       this.currentUser = username;
       localStorage.setItem('currentUser', username);
@@ -52,5 +54,14 @@ export class AuthService {
 
   getCurrentUser(): string | null {
     return this.currentUser;
+  }
+
+  public getUsers(): { [key: string]: { password: string, email: string, firstName: string, lastName: string } } {
+    const users = localStorage.getItem('users');
+    return users ? JSON.parse(users) : {};
+  }
+
+  private saveUsers(users: { [key: string]: { password: string, email: string, firstName: string, lastName: string } }) {
+    localStorage.setItem('users', JSON.stringify(users));
   }
 }

@@ -7,6 +7,7 @@ import { Product } from '../models/products.models';
 export class CartService {
   // Inicializa el carrito con datos de localStorage si existen
   cart = signal<Product[]>(JSON.parse(localStorage.getItem('cart') || '[]'));
+  private currentId = this.cart().length > 0 ? Math.max(...this.cart().map(p => p.id)) + 1 : 1;
 
   // Guarda el carrito en localStorage cuando se actualiza
   private saveCart() {
@@ -14,7 +15,7 @@ export class CartService {
   }
 
   addToCart(product: Product) {
-    const newProduct = { ...product, id: new Date().getTime() }; // Usamos un timestamp como ID único
+    const newProduct = { ...product, id: this.currentId++ }; // Usamos un contador para generar un ID único
     const currentCart = this.cart();
     this.cart.set([...currentCart, newProduct]);
     this.saveCart();
@@ -29,6 +30,10 @@ export class CartService {
   clearCart() {
     this.cart.set([]); // Vaciamos el carrito
     this.saveCart(); // Guardamos el carrito vacío en localStorage
+  }
+
+  getCart(): Product[] {
+    return this.cart();
   }
 
   constructor() {}

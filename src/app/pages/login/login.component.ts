@@ -20,7 +20,7 @@ import Swal from 'sweetalert2';
             <label
               for="username"
               class="block text-sm font-medium text-gray-700"
-              >Username:</label
+              >Nombre de usuario:</label
             >
             <input
               type="text"

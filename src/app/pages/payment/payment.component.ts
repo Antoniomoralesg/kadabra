@@ -27,7 +27,7 @@ import { RouterModule } from '@angular/router';
         
       }
       .progress-bar div.active {
-        border-bottom: 2px solid #ff9800;
+        border-bottom: 5px solid #ff9800;
         font-weight: bold;
       }
     `,

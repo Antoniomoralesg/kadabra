@@ -6,6 +6,7 @@ import { UserReviewsComponent } from '../../components/user-reviews/user-reviews
 import { NewsletterComponent } from '../../components/newsletter/newsletter.component';
 import { PromoBannerComponent } from '../../components/promo-banner/promo-banner.component';
 
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -16,6 +17,7 @@ import { PromoBannerComponent } from '../../components/promo-banner/promo-banner
     UserReviewsComponent,
     NewsletterComponent,
     PromoBannerComponent,
+    ProductsListComponent,
   ],
   template: `
     <app-slider></app-slider>

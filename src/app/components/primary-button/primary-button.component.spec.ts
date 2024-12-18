@@ -8,7 +8,7 @@ describe('PrimaryButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PrimaryButtonComponent], // Importar en lugar de declarar
+      imports: [PrimaryButtonComponent], 
     }).compileComponents();
   });
 

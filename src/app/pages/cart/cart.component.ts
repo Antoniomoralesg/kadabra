@@ -23,7 +23,7 @@ import { MatIconModule } from '@angular/material/icon';
       </button>
       <h2 class="text-2xl">Carrito</h2>
 
-      <ng-container *ngFor="let item of cartService.cart(); trackBy: trackById">
+      <ng-container *ngFor="let item of cartService.getCart(); trackBy: trackById">
         <app-cart-item [item]="item"></app-cart-item>
       </ng-container>
       <app-order-summary></app-order-summary>

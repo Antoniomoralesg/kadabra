@@ -14,6 +14,12 @@ import { AuthService } from '../../../services/auth.service'; // Import AuthServ
       <h2 class="text-2xl mb-4 font-bold">Confirmación del Pedido</h2>
 
       <div class="mb-4">
+        <h3 class="text-xl font-bold">Datos del Usuario</h3>
+        <p class="text-sm text-gray-500">Nombre: {{ user?.firstName }} {{ user?.lastName }}</p>
+        <p class="text-sm text-gray-500">Correo Electrónico: {{ user?.email }}</p>
+      </div>
+
+      <div class="mb-4">
         <h3 class="text-xl font-bold">Entrega prevista</h3>
         <p>Mañana, 18.12 - Jue., 19.12</p>
       </div>
@@ -113,6 +119,7 @@ export class PaymentConfirmationComponent {
   discountCode: string = '';
   discountApplied: boolean = false;
   discountError: string | null = null;
+  user: { firstName: string; lastName: string; email: string } | null = null;
 
   constructor(
     private router: Router,
@@ -121,6 +128,22 @@ export class PaymentConfirmationComponent {
   ) {
     this.cartItems = this.cartService.cart();
     this.total = this.cartItems.reduce((sum, item) => sum + item.price, 0);
+    this.loadUserData();
+  }
+
+  loadUserData() {
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser) {
+      const users = this.authService.getUsers();
+      const userData = users[currentUser];
+      if (userData) {
+        this.user = {
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+          email: userData.email,
+        };
+      }
+    }
   }
 
   applyDiscount() {
