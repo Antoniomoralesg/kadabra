@@ -10,9 +10,13 @@ import { Product } from '../models/products.models';
 export class ProductsService {
   private baseUrl = 'https://fakestoreapi.com/products';
   private cacheDuration = 300000; // 5 minutes
-  private productsCache: { [key: string]: { expiry: number, data: Product[] } } = {};
-  private productDetailsCache: { [key: string]: { expiry: number, data: Product } } = {};
-  private categoriesCache: { expiry: number, data: string[] } | null = null;
+  private productsCache: {
+    [key: string]: { expiry: number; data: Product[] };
+  } = {};
+  private productDetailsCache: {
+    [key: string]: { expiry: number; data: Product };
+  } = {};
+  private categoriesCache: { expiry: number; data: string[] } | null = null;
 
   constructor(private http: HttpClient) {}
 
@@ -25,11 +29,11 @@ export class ProductsService {
     }
 
     const request = this.http.get<Product[]>(this.baseUrl).pipe(
-      retry(3), // Reintentar hasta 3 veces en caso de error
+      retry(3),
       tap((data) => {
         this.productsCache[cacheKey] = {
           expiry: Date.now() + this.cacheDuration,
-          data: data
+          data: data,
         };
       }),
       catchError(this.handleError)
@@ -46,16 +50,18 @@ export class ProductsService {
       return of(cachedData.data);
     }
 
-    const request = this.http.get<Product[]>(`${this.baseUrl}/category/${category}`).pipe(
-      retry(3), // Reintentar hasta 3 veces en caso de error
-      tap((data) => {
-        this.productsCache[cacheKey] = {
-          expiry: Date.now() + this.cacheDuration,
-          data: data
-        };
-      }),
-      catchError(this.handleError)
-    );
+    const request = this.http
+      .get<Product[]>(`${this.baseUrl}/category/${category}`)
+      .pipe(
+        retry(3),
+        tap((data) => {
+          this.productsCache[cacheKey] = {
+            expiry: Date.now() + this.cacheDuration,
+            data: data,
+          };
+        }),
+        catchError(this.handleError)
+      );
 
     return request;
   }
@@ -73,7 +79,7 @@ export class ProductsService {
       tap((data) => {
         this.productDetailsCache[cacheKey] = {
           expiry: Date.now() + this.cacheDuration,
-          data: data
+          data: data,
         };
       }),
       catchError(this.handleError)
@@ -88,11 +94,11 @@ export class ProductsService {
     }
 
     const request = this.http.get<string[]>(`${this.baseUrl}/categories`).pipe(
-      retry(3), // Reintentar hasta 3 veces en caso de error
+      retry(3),
       tap((data) => {
         this.categoriesCache = {
           expiry: Date.now() + this.cacheDuration,
-          data: data
+          data: data,
         };
       }),
       catchError(this.handleError)

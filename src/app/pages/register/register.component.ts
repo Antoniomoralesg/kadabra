@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon'; 
 
 @Component({
   selector: 'app-register',
@@ -16,7 +17,11 @@ import { CommonModule } from '@angular/common';
         class="bg-white p-8 rounded shadow-md w-full max-w-md border border-orange-500"
       >
         <h2 class="text-2xl font-bold mb-6 text-center">Registro</h2>
-        <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)" class="space-y-4">
+        <form
+          #registerForm="ngForm"
+          (ngSubmit)="onSubmit(registerForm)"
+          class="space-y-4"
+        >
           <div>
             <label
               for="firstName"
@@ -32,7 +37,10 @@ import { CommonModule } from '@angular/common';
               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               #firstNameInput="ngModel"
             />
-            <div *ngIf="firstNameInput.invalid && firstNameInput.touched" class="text-red-500 text-sm">
+            <div
+              *ngIf="firstNameInput.invalid && firstNameInput.touched"
+              class="text-red-500 text-sm"
+            >
               Nombre es requerido.
             </div>
           </div>
@@ -51,14 +59,15 @@ import { CommonModule } from '@angular/common';
               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               #lastNameInput="ngModel"
             />
-            <div *ngIf="lastNameInput.invalid && lastNameInput.touched" class="text-red-500 text-sm">
+            <div
+              *ngIf="lastNameInput.invalid && lastNameInput.touched"
+              class="text-red-500 text-sm"
+            >
               Apellido es requerido.
             </div>
           </div>
           <div>
-            <label
-              for="email"
-              class="block text-sm font-medium text-gray-700"
+            <label for="email" class="block text-sm font-medium text-gray-700"
               >Correo Electrónico:</label
             >
             <input
@@ -71,7 +80,10 @@ import { CommonModule } from '@angular/common';
               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               #emailInput="ngModel"
             />
-            <div *ngIf="emailInput.invalid && emailInput.touched" class="text-red-500 text-sm">
+            <div
+              *ngIf="emailInput.invalid && emailInput.touched"
+              class="text-red-500 text-sm"
+            >
               Correo electrónico válido es requerido.
             </div>
           </div>
@@ -90,7 +102,10 @@ import { CommonModule } from '@angular/common';
               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               #usernameInput="ngModel"
             />
-            <div *ngIf="usernameInput.invalid && usernameInput.touched" class="text-red-500 text-sm">
+            <div
+              *ngIf="usernameInput.invalid && usernameInput.touched"
+              class="text-red-500 text-sm"
+            >
               Nombre de usuario es requerido.
             </div>
           </div>
@@ -100,17 +115,31 @@ import { CommonModule } from '@angular/common';
               class="block text-sm font-medium text-gray-700"
               >Contraseña:</label
             >
-            <input
-              type="password"
-              id="password"
-              [(ngModel)]="password"
-              name="password"
-              required
-              minlength="6"
-              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              #passwordInput="ngModel"
-            />
-            <div *ngIf="passwordInput.invalid && passwordInput.touched" class="text-red-500 text-sm">
+            <div class="relative">
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                id="password"
+                [(ngModel)]="password"
+                name="password"
+                required
+                minlength="6"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                #passwordInput="ngModel"
+              />
+              <button
+                type="button"
+                (click)="togglePasswordVisibility()"
+                class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+              >
+                <mat-icon>{{
+                  showPassword ? 'visibility_off' : 'visibility'
+                }}</mat-icon>
+              </button>
+            </div>
+            <div
+              *ngIf="passwordInput.invalid && passwordInput.touched"
+              class="text-red-500 text-sm"
+            >
               Contraseña es requerida y debe tener al menos 6 caracteres.
             </div>
           </div>
@@ -120,19 +149,40 @@ import { CommonModule } from '@angular/common';
               class="block text-sm font-medium text-gray-700"
               >Confirmar Contraseña:</label
             >
-            <input
-              type="password"
-              id="confirmPassword"
-              [(ngModel)]="confirmPassword"
-              name="confirmPassword"
-              required
-              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              #confirmPasswordInput="ngModel"
-            />
-            <div *ngIf="confirmPasswordInput.invalid && confirmPasswordInput.touched" class="text-red-500 text-sm">
+            <div class="relative">
+              <input
+                [type]="showConfirmPassword ? 'text' : 'password'"
+                id="confirmPassword"
+                [(ngModel)]="confirmPassword"
+                name="confirmPassword"
+                required
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                #confirmPasswordInput="ngModel"
+              />
+              <button
+                type="button"
+                (click)="toggleConfirmPasswordVisibility()"
+                class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+              >
+                <mat-icon>{{
+                  showConfirmPassword ? 'visibility_off' : 'visibility'
+                }}</mat-icon>
+              </button>
+            </div>
+            <div
+              *ngIf="
+                confirmPasswordInput.invalid && confirmPasswordInput.touched
+              "
+              class="text-red-500 text-sm"
+            >
               Confirmar contraseña es requerido.
             </div>
-            <div *ngIf="password !== confirmPassword && confirmPasswordInput.touched" class="text-red-500 text-sm">
+            <div
+              *ngIf="
+                password !== confirmPassword && confirmPasswordInput.touched
+              "
+              class="text-red-500 text-sm"
+            >
               Las contraseñas no coinciden.
             </div>
           </div>
@@ -155,7 +205,7 @@ import { CommonModule } from '@angular/common';
     </div>
   `,
   standalone: true,
-  imports: [FormsModule, RouterModule, CommonModule], // Asegúrate de que CommonModule esté importado
+  imports: [FormsModule, RouterModule, CommonModule, MatIconModule], 
   styles: [
     `
       .bg-cover {
@@ -178,8 +228,18 @@ export class RegisterComponent {
   username = '';
   password = '';
   confirmPassword = '';
+  showPassword = false;
+  showConfirmPassword = false;
 
   constructor(private authService: AuthService, private router: Router) {}
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
 
   onSubmit(form: NgForm) {
     if (this.password !== this.confirmPassword) {
@@ -192,7 +252,15 @@ export class RegisterComponent {
       return;
     }
 
-    if (this.authService.register(this.username, this.password, this.email, this.firstName, this.lastName)) {
+    if (
+      this.authService.register(
+        this.username,
+        this.password,
+        this.email,
+        this.firstName,
+        this.lastName
+      )
+    ) {
       Swal.fire({
         title: 'Registro exitoso',
         text: 'Te has registrado con éxito. Ahora puedes iniciar sesión.',

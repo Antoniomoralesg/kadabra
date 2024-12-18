@@ -20,7 +20,9 @@ import Swal from 'sweetalert2';
   ],
   template: `
     <app-header-banner></app-header-banner>
-    <div class="bg-white-800 px-4 py-1 shadow-md flex justify-between items-center">
+    <div
+      class="bg-white-800 px-4 py-1 shadow-md flex justify-between items-center"
+    >
       <button class="text-2xl flex items-center space-x-2" routerLink="/">
         <img
           src="/logo.png"

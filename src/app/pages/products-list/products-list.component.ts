@@ -6,7 +6,8 @@ import { Product } from '../../models/products.models';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductsService } from '../../services/products.service';
 import { catchError, finalize } from 'rxjs/operators';
-import { of, Subscription } from 'rxjs';
+import { of, Subscription, Subject } from 'rxjs';
+import { debounceTime, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-products-list',
@@ -154,6 +155,7 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   totalPages = signal<number>(0);
   paginatedProducts = signal<Product[]>([]);
   private subscriptions: Subscription = new Subscription();
+  private categoryClick$ = new Subject<string>();
 
   // Mapeo de categorías a nombres personalizados
   categoryMap: { [key: string]: string } = {
@@ -209,6 +211,36 @@ export class ProductsListComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(productsSubscription);
     this.subscriptions.add(categoriesSubscription);
+
+    // Debounce para evitar múltiples solicitudes rápidas
+    const categoryClickSubscription = this.categoryClick$
+      .pipe(
+        debounceTime(300),
+        switchMap((category) => {
+          this.selectedCategory = category;
+          this.loading.set(true);
+          const products$ =
+            category === 'Todos'
+              ? this.productsService.getAllProducts()
+              : this.productsService.getProductsByCategory(category);
+
+          return products$.pipe(
+            catchError((error) => {
+              console.error('Error al filtrar por categoría:', error);
+              return of([]);
+            }),
+            finalize(() => this.loading.set(false))
+          );
+        })
+      )
+      .subscribe((filteredProducts) => {
+        this.products.set(filteredProducts);
+        this.currentPage.set(1);
+        this.updateTotalPages();
+        this.updatePaginatedProducts();
+      });
+
+    this.subscriptions.add(categoryClickSubscription);
   }
 
   ngOnDestroy() {
@@ -233,29 +265,7 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   }
 
   filterByCategory(category: string) {
-    this.selectedCategory = category;
-    this.loading.set(true);
-    const products$ =
-      category === 'Todos'
-        ? this.productsService.getAllProducts()
-        : this.productsService.getProductsByCategory(category);
-
-    const filterSubscription = products$
-      .pipe(
-        catchError((error) => {
-          console.error('Error al filtrar por categoría:', error);
-          return of([]);
-        }),
-        finalize(() => this.loading.set(false))
-      )
-      .subscribe((filteredProducts) => {
-        this.products.set(filteredProducts);
-        this.currentPage.set(1);
-        this.updateTotalPages();
-        this.updatePaginatedProducts();
-      });
-
-    this.subscriptions.add(filterSubscription);
+    this.categoryClick$.next(category);
   }
 
   filterByName(event: Event) {

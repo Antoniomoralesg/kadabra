@@ -21,7 +21,7 @@ import { of } from 'rxjs';
     MatIconModule,
     MatProgressSpinnerModule,
     CommonModule,
-    ProductCardComponent // Incluir ProductCardComponent en imports
+    ProductCardComponent,
   ],
   template: `
     <div
@@ -31,12 +31,21 @@ import { of } from 'rxjs';
         <mat-icon>arrow_back</mat-icon>
         <span class="ml-2">Volver</span>
       </button>
-      <div *ngIf="loading; else productContent" class="flex justify-center items-center">
-        <mat-spinner diameter="50" class="spinner-center custom-spinner"></mat-spinner>
+      <div
+        *ngIf="loading; else productContent"
+        class="flex justify-center items-center"
+      >
+        <mat-spinner
+          diameter="50"
+          class="spinner-center custom-spinner"
+        ></mat-spinner>
       </div>
       <ng-template #productContent>
         <div class="mx-auto">
-          <img [src]="product?.image" class="w-[300px] h-[auto] object-contain" />
+          <img
+            [src]="product?.image"
+            class="w-[300px] h-[auto] object-contain"
+          />
         </div>
         <div class="flex flex-col">
           <h2 class="text-2xl font-bold">{{ product?.title }}</h2>
@@ -108,7 +117,7 @@ export class ProductDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       const productId = params.get('id');
       if (productId) {
         this.loadProductDetails(Number(productId));
@@ -146,7 +155,9 @@ export class ProductDetailComponent implements OnInit {
         })
       )
       .subscribe((products) => {
-        this.relatedProducts = products.filter(p => p.id !== this.product?.id);
+        this.relatedProducts = products.filter(
+          (p) => p.id !== this.product?.id
+        );
       });
   }
 

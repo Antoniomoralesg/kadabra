@@ -19,21 +19,21 @@ describe('CartItemComponent', () => {
     image: 'test-image.jpg',
     rating: {
       rate: 4.5,
-      count: 10
+      count: 10,
     },
-    stock: 20, // Agregar la propiedad 'stock'
-    uniqueId: 'unique-id-123', // Propiedad opcional
-    quantity: 1 // Propiedad opcional
+    stock: 20,
+    uniqueId: 'unique-id-123',
+    quantity: 1,
   };
 
   beforeEach(async () => {
     const cartServiceMock = {
-      removeFromCart: jasmine.createSpy('removeFromCart')
+      removeFromCart: jasmine.createSpy('removeFromCart'),
     };
 
     await TestBed.configureTestingModule({
-      imports: [CartItemComponent], // Importar CartItemComponent
-      providers: [{ provide: CartService, useValue: cartServiceMock }]
+      imports: [CartItemComponent],
+      providers: [{ provide: CartService, useValue: cartServiceMock }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CartItemComponent);
@@ -43,12 +43,14 @@ describe('CartItemComponent', () => {
     fixture.detectChanges();
 
     // Espiar y simular Swal.fire
-    spyOn(Swal, 'fire').and.returnValue(Promise.resolve({
-      isConfirmed: true,
-      isDenied: false,
-      isDismissed: false,
-      value: null
-    }));
+    spyOn(Swal, 'fire').and.returnValue(
+      Promise.resolve({
+        isConfirmed: true,
+        isDenied: false,
+        isDismissed: false,
+        value: null,
+      })
+    );
   });
 
   it('should create', () => {
@@ -56,12 +58,16 @@ describe('CartItemComponent', () => {
   });
 
   it('should display product title', () => {
-    const titleElement = fixture.debugElement.query(By.css('.text-md')).nativeElement;
+    const titleElement = fixture.debugElement.query(
+      By.css('.text-md')
+    ).nativeElement;
     expect(titleElement.textContent).toContain('Test Product');
   });
 
   it('should display product price', () => {
-    const priceElement = fixture.debugElement.query(By.css('.text-sm')).nativeElement;
+    const priceElement = fixture.debugElement.query(
+      By.css('.text-sm')
+    ).nativeElement;
     expect(priceElement.textContent).toContain('$100');
   });
 

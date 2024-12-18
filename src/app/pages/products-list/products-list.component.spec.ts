@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { ProductsListComponent } from './products-list.component';
 import { ProductsService } from '../../services/products.service';
 import { of } from 'rxjs';
@@ -24,7 +29,7 @@ describe('ProductsListComponent', () => {
       stock: 10,
       description: 'Test Description 1',
       rating: { rate: 4.5, count: 10 },
-      category: 'TestCategory'
+      category: 'TestCategory1',
     },
     {
       id: 2,
@@ -34,14 +39,18 @@ describe('ProductsListComponent', () => {
       stock: 5,
       description: 'Test Description 2',
       rating: { rate: 4.0, count: 5 },
-      category: 'TestCategory'
-    }
+      category: 'TestCategory2',
+    },
   ];
 
   const mockCategories: string[] = ['TestCategory1', 'TestCategory2'];
 
   beforeEach(async () => {
-    const productsServiceSpy = jasmine.createSpyObj('ProductsService', ['getAllProducts', 'getProductsByCategory', 'getCategories']);
+    const productsServiceSpy = jasmine.createSpyObj('ProductsService', [
+      'getAllProducts',
+      'getProductsByCategory',
+      'getCategories',
+    ]);
 
     await TestBed.configureTestingModule({
       imports: [
@@ -49,7 +58,7 @@ describe('ProductsListComponent', () => {
         MatIconModule,
         MatProgressSpinnerModule,
         ProductCardComponent,
-        ProductsListComponent
+        ProductsListComponent,
       ],
       providers: [
         { provide: ProductsService, useValue: productsServiceSpy },
@@ -57,16 +66,18 @@ describe('ProductsListComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             paramMap: of({
-              get: (key: string) => '1'
-            })
-          }
-        }
-      ]
+              get: (key: string) => '1',
+            }),
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProductsListComponent);
     component = fixture.componentInstance;
-    productsService = TestBed.inject(ProductsService) as jasmine.SpyObj<ProductsService>;
+    productsService = TestBed.inject(
+      ProductsService
+    ) as jasmine.SpyObj<ProductsService>;
 
     productsService.getAllProducts.and.returnValue(of(mockProducts));
     productsService.getCategories.and.returnValue(of(mockCategories));
@@ -84,18 +95,27 @@ describe('ProductsListComponent', () => {
 
   it('should load categories on init', () => {
     expect(productsService.getCategories).toHaveBeenCalled();
-    expect(component.displayCategories.length).toBe(3); // 'Todos' + 2 mock categories
+    expect(component.displayCategories.length).toBe(3);
   });
 
-  it('should filter products by category', () => {
-    productsService.getProductsByCategory.and.returnValue(of([mockProducts[0]]));
+  it('should filter products by category', fakeAsync(() => {
+    productsService.getProductsByCategory.and.returnValue(
+      of([mockProducts[0]])
+    );
     component.filterByCategory('TestCategory1');
-    expect(productsService.getProductsByCategory).toHaveBeenCalledWith('TestCategory1');
+    tick(300); // Avanza el tiempo para completar el debounce
+    fixture.detectChanges(); // Actualiza la vista
+    expect(productsService.getProductsByCategory).toHaveBeenCalledWith(
+      'TestCategory1'
+    );
     expect(component.products().length).toBe(1);
-  });
+    expect(component.products()[0].title).toBe('Test Product 1');
+  }));
 
   it('should filter products by name', () => {
-    const inputElement = fixture.debugElement.query(By.css('input')).nativeElement;
+    const inputElement = fixture.debugElement.query(
+      By.css('input')
+    ).nativeElement;
     inputElement.value = 'Test Product 1';
     inputElement.dispatchEvent(new Event('input'));
     fixture.detectChanges();
@@ -120,8 +140,24 @@ describe('ProductsListComponent', () => {
   });
 
   it('should handle touch events for category scrolling', () => {
-    const touchStartEvent = new TouchEvent('touchstart', { touches: [new Touch({ identifier: 0, target: document.createElement('div'), clientX: 100 })] });
-    const touchMoveEvent = new TouchEvent('touchmove', { touches: [new Touch({ identifier: 0, target: document.createElement('div'), clientX: 50 })] });
+    const touchStartEvent = new TouchEvent('touchstart', {
+      touches: [
+        new Touch({
+          identifier: 0,
+          target: document.createElement('div'),
+          clientX: 100,
+        }),
+      ],
+    });
+    const touchMoveEvent = new TouchEvent('touchmove', {
+      touches: [
+        new Touch({
+          identifier: 0,
+          target: document.createElement('div'),
+          clientX: 50,
+        }),
+      ],
+    });
     const touchEndEvent = new TouchEvent('touchend');
 
     component.onTouchStart(touchStartEvent);
