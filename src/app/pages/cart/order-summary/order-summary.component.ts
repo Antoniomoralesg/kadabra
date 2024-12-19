@@ -6,19 +6,8 @@ import { PrimaryButtonComponent } from '../../../components/primary-button/prima
 @Component({
   selector: 'app-order-summary',
   imports: [PrimaryButtonComponent],
-  template: `
-    <div class="bg-slate-100 p-6 rounded-xl shadow-xl border">
-      <h2 class="text-2xl">Resumen del pedido</h2>
-      <div class="flex flex-col gap-4">
-        <div class="flex gap-4">
-          <span class="text-lg">Total</span>
-          <span class="text-lg font-bold">{{ '€ ' + total() }}</span>
-        </div>
-        <app-primary-button label="Proceder al pago" (btnClicked)="proceedToPayment()" />
-      </div>
-    </div>
-  `,
-  styles: [],
+  templateUrl: './order-summary.component.html',
+  styleUrls: ['./order-summary.component.css'],
 })
 export class OrderSummaryComponent {
   cartService = inject(CartService);

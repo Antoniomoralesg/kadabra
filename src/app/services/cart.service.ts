@@ -7,7 +7,8 @@ import { Product } from '../models/products.models';
 export class CartService {
   // Inicializa el carrito con datos de localStorage si existen
   cart = signal<Product[]>(JSON.parse(localStorage.getItem('cart') || '[]'));
-  private currentId = this.cart().length > 0 ? Math.max(...this.cart().map(p => p.id)) + 1 : 1;
+  private currentId =
+    this.cart().length > 0 ? Math.max(...this.cart().map((p) => p.id)) + 1 : 1;
 
   // Guarda el carrito en localStorage cuando se actualiza
   private saveCart() {

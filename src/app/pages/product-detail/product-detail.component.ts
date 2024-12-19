@@ -23,84 +23,8 @@ import { of } from 'rxjs';
     CommonModule,
     ProductCardComponent,
   ],
-  template: `
-    <div
-      class="bg-white shadow-md border rounded-xl p-6 flex flex-col gap-6 max-w-xl mx-auto mt-8 mb-8 "
-    >
-      <button (click)="goBack()" class="back-button mb-4 flex items-center">
-        <mat-icon>arrow_back</mat-icon>
-        <span class="ml-2">Volver</span>
-      </button>
-      <div
-        *ngIf="loading; else productContent"
-        class="flex justify-center items-center"
-      >
-        <mat-spinner
-          diameter="50"
-          class="spinner-center custom-spinner"
-        ></mat-spinner>
-      </div>
-      <ng-template #productContent>
-        <div class="mx-auto">
-          <img
-            [src]="product?.image"
-            class="w-[300px] h-[auto] object-contain"
-          />
-        </div>
-        <div class="flex flex-col">
-          <h2 class="text-2xl font-bold">{{ product?.title }}</h2>
-          <p class="text-lg font-semibold">{{ '$' + product?.price }}</p>
-
-          <p class="text-sm text-gray-500 mt-4">{{ product?.description }}</p>
-
-          <div class="mt-4">
-            <p class="text-md font-bold">
-              Rating: {{ product?.rating?.rate }} / 5
-            </p>
-            <p class="text-sm text-gray-500">
-              Basado en {{ product?.rating?.count }} reviews
-            </p>
-
-            <!-- Botón para añadir al carrito -->
-            <app-primary-button
-              label="Añadir a la cesta"
-              class="mt-2 w-full text-lg font-bold py-3  hover:text-white transition-colors duration-300"
-              (btnClicked)="addToCart()"
-            />
-          </div>
-        </div>
-      </ng-template>
-
-      <!-- Productos relacionados -->
-      <div *ngIf="relatedProducts.length > 0" class="related-products mt-8">
-        <h3 class="text-xl font-bold mb-4">Productos relacionados</h3>
-        <div class="grid grid-cols-2 gap-4">
-          <app-product-card
-            *ngFor="let relatedProduct of relatedProducts"
-            [product]="relatedProduct"
-          ></app-product-card>
-        </div>
-      </div>
-    </div>
-  `,
-  styles: [
-    `
-      .back-button {
-        color: #f97316;
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 16px;
-      }
-      .spinner-center {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 9999;
-      }
-    `,
-  ],
+  templateUrl: './product-detail.component.html',
+  styleUrls: ['./product-detail.component.css'],
 })
 export class ProductDetailComponent implements OnInit {
   product: Product | undefined;

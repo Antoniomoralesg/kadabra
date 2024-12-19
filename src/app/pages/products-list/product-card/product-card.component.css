@@ -1,0 +1,26 @@
+.product-card {
+    transition: transform 0.3s ease-in-out;
+  }
+  .product-card:hover {
+    transform: translateY(-5px);
+  }
+  .truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  @media (max-width: 640px) {
+    .product-card {
+      padding: 2rem 1rem;
+    }
+    .product-card img {
+      width: 100px;
+      height: 100px;
+    }
+    .product-card span {
+      font-size: 0.875rem;
+    }
+    .product-card button {
+      padding: 0.5rem 1rem;
+    }
+  }

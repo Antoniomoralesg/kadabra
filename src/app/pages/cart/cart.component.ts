@@ -15,31 +15,8 @@ import { MatIconModule } from '@angular/material/icon';
     OrderSummaryComponent,
     MatIconModule,
   ],
-  template: `
-    <div class="p-6 flex flex-col gap-4">
-      <button (click)="goHome()" class="back-button mb-4 flex items-center">
-        <mat-icon>home</mat-icon>
-        <span class="ml-2">Inicio</span>
-      </button>
-      <h2 class="text-2xl">Carrito</h2>
-
-      <ng-container *ngFor="let item of cartService.getCart(); trackBy: trackById">
-        <app-cart-item [item]="item"></app-cart-item>
-      </ng-container>
-      <app-order-summary></app-order-summary>
-    </div>
-  `,
-  styles: [
-    `
-      .back-button {
-        color: #f97316;
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 16px;
-      }
-    `,
-  ],
+  templateUrl: './cart.component.html',
+  styleUrls: ['./cart.component.css'],
 })
 export class CartComponent {
   cartService = inject(CartService);

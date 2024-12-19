@@ -5,22 +5,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-scroll-to-top',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <button
-      *ngIf="isVisible"
-      (click)="scrollToTop()"
-      class="fixed bottom-4 right-4 bg-orange-500 text-white p-3 rounded-full shadow-lg "
-    >
-      ↑ Subir
-    </button>
-  `,
-  styles: [
-    `
-      button {
-        display: block;
-      }
-    `
-  ]
+  templateUrl: './scroll-to-top.component.html',
+  styleUrls: ['./scroll-to-top.component.css'],
 })
 export class ScrollToTopComponent {
   isVisible = false;
@@ -28,7 +14,7 @@ export class ScrollToTopComponent {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     const scrollPosition = window.pageYOffset + window.innerHeight;
-    const threshold = document.documentElement.scrollHeight - 100; // Ajusta el umbral según sea necesario
+    const threshold = document.documentElement.scrollHeight - 100;
     this.isVisible = scrollPosition >= threshold;
   }
 

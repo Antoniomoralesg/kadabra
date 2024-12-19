@@ -1,0 +1,16 @@
+.benefits-container {
+    background-color: white;
+  }
+  .benefit-card {
+    border: 2px solid #ffa500;
+    border-radius: 8px;
+    padding: 1rem;
+    transition: transform 0.3s ease-in-out;
+  }
+  .benefit-card img {
+    object-fit: contain;
+  }
+  .benefit-card:hover {
+    transform: scale(1.05);
+    transition: all 0.3s ease-in-out;
+  }

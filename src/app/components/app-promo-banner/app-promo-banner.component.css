@@ -1,0 +1,25 @@
+.promo-banner {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+  }
+  .text-content {
+    flex: 1;
+    margin-right: 1rem;
+  }
+  .image-content {
+    flex: 1;
+  }
+  @media (max-width: 640px) {
+    .promo-banner {
+      flex-direction: column;
+      text-align: center;
+    }
+    .text-content {
+      margin-right: 0;
+      margin-bottom: 1rem;
+    }
+  }

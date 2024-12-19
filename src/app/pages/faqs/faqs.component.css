@@ -1,0 +1,17 @@
+/* Puedes agregar estilos específicos para las preguntas frecuentes aquí */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+  .faq-item {
+    margin-bottom: 1rem;
+  }
+  .faq-item h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  .faq-item p {
+    font-size: 1rem;
+    color: #4a5568;
+  }

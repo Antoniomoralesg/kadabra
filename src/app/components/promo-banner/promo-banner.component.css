@@ -1,0 +1,8 @@
+.promo-banner {
+    background: linear-gradient(90deg, #ff385c 0%, #f799ba 100%);
+    color: #ffffff;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }

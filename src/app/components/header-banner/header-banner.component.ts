@@ -5,24 +5,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-header-banner',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="header-banner text-white py-2 px-4 text-center">
-      <p class="text-sm md:text-base font-semibold">
-        Envío gratuito en pedidos superiores a 30 euros | Devoluciones gratis
-      </p>
-    </div>
-  `,
-  styles: [
-    `
-      .header-banner {
-        background: linear-gradient(90deg, #ffd700 0%, #ffea00 100%);
-        color: #000000;
-        padding: 0.5rem 1rem;
-        text-align: center;
-        font-size: 1rem;
-        font-weight: 600;
-      }
-    `,
-  ],
+  templateUrl: './header-banner.component.html',
+  styleUrls: ['./header-banner.component.css'],
 })
 export class HeaderBannerComponent {}
