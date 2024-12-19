@@ -10,6 +10,7 @@ export class AuthService {
   private currentUser: string | null = null;
 
   constructor(private router: Router, private cartService: CartService) {
+    // Cargar el usuario actual desde localStorage si existe
     const storedUser = localStorage.getItem('currentUser');
     if (storedUser) {
       this.isAuthenticated = true;
@@ -17,7 +18,22 @@ export class AuthService {
     }
   }
 
-  register(username: string, password: string, email: string, firstName: string, lastName: string): boolean {
+  /**
+   * Registra un nuevo usuario.
+   * @param username - Nombre de usuario
+   * @param password - Contraseña
+   * @param email - Correo electrónico
+   * @param firstName - Nombre
+   * @param lastName - Apellido
+   * @returns boolean - Indica si el registro fue exitoso
+   */
+  register(
+    username: string,
+    password: string,
+    email: string,
+    firstName: string,
+    lastName: string
+  ): boolean {
     const users = this.getUsers();
     if (users[username]) {
       return false; // Usuario ya existe
@@ -27,6 +43,12 @@ export class AuthService {
     return true;
   }
 
+  /**
+   * Inicia sesión con un usuario existente.
+   * @param username - Nombre de usuario
+   * @param password - Contraseña
+   * @returns boolean - Indica si el inicio de sesión fue exitoso
+   */
   login(username: string, password: string): boolean {
     const users = this.getUsers();
     const storedUser = users[username];
@@ -40,6 +62,9 @@ export class AuthService {
     return false;
   }
 
+  /**
+   * Cierra la sesión del usuario actual.
+   */
   logout() {
     this.isAuthenticated = false;
     this.currentUser = null;
@@ -48,20 +73,50 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
+  /**
+   * Verifica si el usuario está autenticado.
+   * @returns boolean - Indica si el usuario está autenticado
+   */
   isLoggedIn(): boolean {
     return this.isAuthenticated;
   }
 
+  /**
+   * Obtiene el nombre del usuario actual.
+   * @returns string | null - Nombre del usuario actual o null si no hay usuario autenticado
+   */
   getCurrentUser(): string | null {
     return this.currentUser;
   }
 
-  public getUsers(): { [key: string]: { password: string, email: string, firstName: string, lastName: string } } {
+  /**
+   * Obtiene todos los usuarios registrados.
+   * @returns { [key: string]: { password: string; email: string; firstName: string; lastName: string; } } - Objeto con los usuarios registrados
+   */
+  public getUsers(): {
+    [key: string]: {
+      password: string;
+      email: string;
+      firstName: string;
+      lastName: string;
+    };
+  } {
     const users = localStorage.getItem('users');
     return users ? JSON.parse(users) : {};
   }
 
-  private saveUsers(users: { [key: string]: { password: string, email: string, firstName: string, lastName: string } }) {
+  /**
+   * Guarda los usuarios en localStorage.
+   * @param users - Objeto con los usuarios a guardar
+   */
+  private saveUsers(users: {
+    [key: string]: {
+      password: string;
+      email: string;
+      firstName: string;
+      lastName: string;
+    };
+  }) {
     localStorage.setItem('users', JSON.stringify(users));
   }
 }

@@ -14,7 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
       style="background-image: url('registro.jpg');"
     >
       <div
-        class="bg-white p-8 rounded shadow-md w-full max-w-md border border-orange-500"
+        class="bg-white bg-opacity-90 p-8 rounded shadow-md w-full max-w-md border border-orange-500"
       >
         <h2 class="text-2xl font-bold mb-6 text-center">Registro</h2>
         <form
@@ -217,6 +217,17 @@ import { MatIconModule } from '@angular/material/icon';
       .py-12 {
         padding-top: 3rem;
         padding-bottom: 3rem;
+      }
+      @media (max-width: 640px) {
+        .bg-cover {
+          background-size: contain;
+        }
+        .bg-white {
+          background-color: rgba(255, 255, 255, 0.9);
+        }
+        .p-8 {
+          padding: 1rem;
+        }
       }
     `,
   ],
