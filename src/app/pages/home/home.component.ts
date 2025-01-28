@@ -1,41 +1,53 @@
-import { Component } from '@angular/core';
-import { ProductsListComponent } from '../products-list/products-list.component';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { SliderComponent } from '../../components/slider/slider.component';
-import { StoreBenefitsComponent } from '../../components/store-benefits/store-benefits.component';
-import { UserReviewsComponent } from '../../components/user-reviews/user-reviews.component';
-import { NewsletterComponent } from '../../components/newsletter/newsletter.component';
 import { PromoBannerComponent } from '../../components/promo-banner/promo-banner.component';
-import { AppPromoBannerComponent } from "../../components/app-promo-banner/app-promo-banner.component";
 import { ScrollToTopComponent } from '../../components/scroll-to-top/scroll-to-top.component';
-
+import { ProductsListComponent } from '../products-list/products-list.component';
+import { NewsletterComponent } from '../../components/newsletter/newsletter.component';
+import { UserReviewsComponent } from '../../components/user-reviews/user-reviews.component';
+import { StoreBenefitsComponent } from '../../components/store-benefits/store-benefits.component';
+import { AppPromoBannerComponent } from '../../components/app-promo-banner/app-promo-banner.component';
 
 @Component({
   selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css'],
   standalone: true,
   imports: [
-    ProductsListComponent,
+    CommonModule,
     SliderComponent,
+    PromoBannerComponent,
+    ScrollToTopComponent,
+    ProductsListComponent,
     StoreBenefitsComponent,
     UserReviewsComponent,
-    NewsletterComponent,
-    PromoBannerComponent,
-    ProductsListComponent,
-    PromoBannerComponent,
     AppPromoBannerComponent,
-    ScrollToTopComponent
-    
-],
-  template: `
-    <app-slider></app-slider>
-    <app-promo-banner></app-promo-banner>
-    <app-scroll-to-top></app-scroll-to-top>
-    <app-products-list></app-products-list>
-    <app-store-benefits></app-store-benefits>
-    <app-user-reviews></app-user-reviews>
-    <app-app-promo-banner></app-app-promo-banner>
-    <app-newsletter></app-newsletter>
-    
-  `,
-  styles: [],
+    NewsletterComponent,
+  ],
 })
-export class HomeComponent {}
+export class HomeComponent implements OnInit {
+  isDarkMode: boolean = false;
+
+  constructor() {}
+
+  ngOnInit(): void {
+    // Verificar si el modo oscuro está habilitado en el almacenamiento local
+    const darkMode = localStorage.getItem('darkMode');
+    if (darkMode === 'true') {
+      this.isDarkMode = true;
+      document.body.classList.add('dark-mode');
+    }
+  }
+
+  toggleDarkMode(): void {
+    this.isDarkMode = !this.isDarkMode;
+    if (this.isDarkMode) {
+      document.body.classList.add('dark-mode');
+      localStorage.setItem('darkMode', 'true');
+    } else {
+      document.body.classList.remove('dark-mode');
+      localStorage.setItem('darkMode', 'false');
+    }
+  }
+}

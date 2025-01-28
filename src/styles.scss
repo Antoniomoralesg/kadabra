@@ -2,5 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow-x: hidden; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  overflow-x: hidden;
+}
+
+/* Modo Claro */
+body {
+  background-color: white;
+  color: black;
+}
+
+/* Modo Oscuro */
+body.dark-mode {
+  background-color: black;
+  color: white;
+}
